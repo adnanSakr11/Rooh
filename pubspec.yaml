@@ -13,6 +13,8 @@ dependencies:
   firebase_core: ^4.4.0
   cloud_firestore: ^6.8.0
   flutter_bloc: ^9.1.1
+  http: ^1.6.0
+  google_nav_bar: ^5.0.7
 
 dev_dependencies:
   flutter_test:
