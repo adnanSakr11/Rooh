@@ -15,6 +15,8 @@ dependencies:
   flutter_bloc: ^9.1.1
   http: ^1.6.0
   google_nav_bar: ^5.0.7
+  dartz: ^0.10.1
+  equatable: ^2.1.0
 
 dev_dependencies:
   flutter_test:

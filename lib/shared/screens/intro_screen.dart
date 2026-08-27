@@ -18,7 +18,7 @@ class _IntroPageState extends State<IntroPage> {
     });
   }
 
-  List<Widget> get pages => [const ProductsScreen()];
+  List<Widget> get pages => [ ProductsScreen()];
 
   @override
   Widget build(BuildContext context) {

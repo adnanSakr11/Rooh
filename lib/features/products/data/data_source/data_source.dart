@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../../../core/const/app_const.dart';
+
+import '../../../../core/const/app_const.dart';
+// import '../../../core/const/app_const.dart';
 
 /// خدمة بسيطة للبحث عن صور من Pexels API واستخدامها كـ placeholder
 /// لصور المنتجات أثناء التيست.
-class PexelsService {
-  const PexelsService();
+class PexelsDataSource {
+  const PexelsDataSource();
 
   /// بيدور بكلمة بحث ويرجع أول صورة مناسبة (رابط medium size).
   /// لو مفيش نتائج أو حصل خطأ، بيرجع null.
@@ -35,7 +37,6 @@ class PexelsService {
       final src = photos.first['src'] as Map<String, dynamic>;
       return src['medium'] as String?;
     } catch (_) {
-      // لو حصل أي خطأ في الشبكة أو الـ parsing، بنرجع null بدل ما نكسر الشاشة
       return null;
     }
   }
