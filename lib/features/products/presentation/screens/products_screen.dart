@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 import 'package:rooh/core/const/app_const.dart';
 import 'package:rooh/features/products/data/repo/products_repo.dart';
 import 'package:rooh/features/products/domain/usecases/fetch_images_on_pexels_usecase.dart';
@@ -99,6 +100,11 @@ class _ProductsView extends StatelessWidget {
               }
 
               final products = (state as ProductsLoaded).displayedProducts;
+              final crossAxisCount = ResponsiveBreakpoints.of(context).isDesktop
+                  ? 5
+                  : ResponsiveBreakpoints.of(context).isTablet
+                  ? 3
+                  : 2;
 
               return SliverPadding(
                 padding: const EdgeInsets.all(12),
@@ -106,8 +112,8 @@ class _ProductsView extends StatelessWidget {
                   delegate: SliverChildBuilderDelegate((context, index) {
                     return ProductCard(productsModel: products[index]);
                   }, childCount: products.length),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossAxisCount,
                     mainAxisSpacing: 12,
                     crossAxisSpacing: 12,
                     childAspectRatio: 0.72,
