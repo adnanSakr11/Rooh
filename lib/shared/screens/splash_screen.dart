@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rooh/core/const/app_const.dart';
-import '../../../../core/const/splash_const.dart';
+import '../../core/const/splash_const.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key, this.onContinue});

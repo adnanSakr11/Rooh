@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:rooh/core/theme/app_theme.dart';
-import 'package:rooh/features/auth/presentation/screens/splash_screen.dart';
+import 'package:rooh/shared/screens/splash_screen.dart';
 import 'package:rooh/shared/screens/intro_screen.dart';
 import 'package:rooh/shared/screens/swipe_up.dart';
 import 'firebase_options.dart';
