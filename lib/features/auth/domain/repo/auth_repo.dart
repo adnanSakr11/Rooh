@@ -9,5 +9,6 @@ abstract class AuthRepo {
     required String password,
   });
   Future<Either<Failure, void>> updateUserName(String newName);
+  Future<Either<Failure, void>> signOut();
   Stream<UserEntity?> get authStateChanges;
 }

@@ -1,11 +1,14 @@
+import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:rooh/core/errors/failure.dart';
 
 class FirebaseAuthDataSource {
   final FirebaseAuth _firebaseAuth;
-  FirebaseAuthDataSource(this._firebaseAuth);
+  final GoogleSignIn _googleSign;
+  FirebaseAuthDataSource(this._firebaseAuth, this._googleSign);
   Future<UserCredential> signinWithGoogle() async {
-    final googleUser = await GoogleSignIn().signIn();
+    final googleUser = await _googleSign.signIn();
     if (googleUser == null) {
       throw Exception('تم إلغاء تسجيل الدخول');
     }
@@ -36,6 +39,22 @@ class FirebaseAuthDataSource {
         );
       }
       rethrow;
+    }
+  }
+
+  Future<Either<Failure, void>> signOut() async {
+    try {
+      await _firebaseAuth.signOut();
+
+      if (await _googleSign.isSignedIn()) {
+        await _googleSign.signOut();
+        await _googleSign.disconnect();
+      }
+      return Right(null);
+    } catch (e, st) {
+      return Left(
+        Failure(message: 'فشل تسجيل الخروج', cause: e, stackTrace: st),
+      );
     }
   }
 }

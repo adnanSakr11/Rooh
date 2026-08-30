@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb;
+import 'package:flutter/foundation.dart';
 import 'package:rooh/core/errors/failure.dart';
 import 'package:rooh/features/auth/data/data_source/fire_store_user_data_soruce.dart';
 import 'package:rooh/features/auth/data/data_source/firebase_auth_data_source.dart';
@@ -27,7 +28,7 @@ class AuthRepoImpl extends AuthRepo {
         'User${firebaseUser.uid.replaceAll(RegExp(r'[^0-9]'), '').padLeft(4, '0').substring((firebaseUser.uid.replaceAll(RegExp(r'[^0-9]'), '').length >= 4) ? firebaseUser.uid.replaceAll(RegExp(r'[^0-9]'), '').length - 4 : 0)}';
 
     final newUser = UserModel(
-      phoneNumber!,
+      phoneNumber,
       uId: firebaseUser.uid,
       userName: defaultName,
     );
@@ -51,6 +52,8 @@ class AuthRepoImpl extends AuthRepo {
       final user = await _ensureUserProfile(credential, phoneNumber: null);
       return Right(user);
     } catch (e, st) {
+      debugPrint('❌ signinWithGoogle real error: $e');
+      debugPrint('❌ stackTrace: $st');
       return Left(
         Failure(message: 'فشل تسجيل الدخول بجوجل', stackTrace: st, cause: e),
       );
@@ -75,6 +78,8 @@ class AuthRepoImpl extends AuthRepo {
     } on fb.FirebaseAuthException catch (e) {
       return Left(Failure(message: _mapAuthError(e.code)));
     } catch (e, st) {
+      debugPrint('❌ signinWithPhoneAndpass real error: $e');
+      debugPrint('❌ stackTrace: $st');
       return Left(
         Failure(message: 'فشل تسجيل الدخول', cause: e, stackTrace: st),
       );
@@ -107,6 +112,18 @@ class AuthRepoImpl extends AuthRepo {
         return 'كلمة المرور ضعيفة جدًا';
       default:
         return 'حدث خطأ، حاول مرة أخرى';
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> signOut() async {
+    try {
+      await _authDataSource.signOut();
+      return Right(null);
+    } catch (e, st) {
+      return Left(
+        Failure(message: 'فشل تسجيل الخروج', cause: e, stackTrace: st),
+      );
     }
   }
 }
