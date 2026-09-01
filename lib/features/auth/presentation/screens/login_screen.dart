@@ -1,19 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:rooh/core/const/app_const.dart';
-import 'package:rooh/features/auth/data/data_source/fire_store_user_data_soruce.dart';
-import 'package:rooh/features/auth/data/data_source/firebase_auth_data_source.dart';
-import 'package:rooh/features/auth/data/repo/auth_repo_impl.dart';
-import 'package:rooh/features/auth/domain/usecases/sign_out_usecasse.dart';
 import 'package:rooh/features/auth/domain/usecases/signin_with_google.dart';
 import 'package:rooh/features/auth/domain/usecases/signin_with_phone_and_pass.dart';
 import 'package:rooh/features/auth/presentation/cubits/google_signin_cubit/google_signin_cubit.dart';
 import 'package:rooh/features/auth/presentation/cubits/phone_signin/phone_signin_cubit.dart';
-import 'package:rooh/features/auth/presentation/cubits/signout/signout_cubit.dart';
+
+import '../../../../core/injection/service_locator.dart';
 
 class LoginScreen extends StatelessWidget {
   static String id = 'Loginscreen';
@@ -21,25 +15,15 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // نفس نمط ProductsScreen: بناء الـ dependency chain مباشرة هنا
-    // لحد ما يكون فيه DI container مركزي في المشروع.
-    final authRepo = AuthRepoImpl(
-      FirebaseAuthDataSource(FirebaseAuth.instance, GoogleSignIn()),
-      FireStoreUserDataSoruce(FirebaseFirestore.instance),
-    );
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-              GoogleSigninCubit(SigninWithGoogleUsecase(authRepo: authRepo)),
+          create: (_) => GoogleSigninCubit(getIt<SigninWithGoogleUsecase>()),
         ),
         BlocProvider(
-          create: (_) => PhoneSigninCubit(
-            SigninWithPhoneAndPassUsecase(authRepo: authRepo),
-          ),
+          create: (_) =>
+              PhoneSigninCubit(getIt<SigninWithPhoneAndPassUsecase>()),
         ),
-        BlocProvider(create: (_) => SignoutCubit(SignOutUsecasse(authRepo))),
       ],
       child: const _LoginView(),
     );

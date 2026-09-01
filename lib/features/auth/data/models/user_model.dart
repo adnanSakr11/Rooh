@@ -11,14 +11,14 @@ class UserModel extends UserEntity {
     return UserModel(
       map['phoneNumber'] as String?,
       uId: map['uId'] as String,
-      userName: map['userName'] as String,
+      userName: map['name'] as String,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'uId': uId,
-      'userName': userName,
+      'name': userName,
       if (phoneNumber != null) 'phoneNumber': phoneNumber,
     };
   }

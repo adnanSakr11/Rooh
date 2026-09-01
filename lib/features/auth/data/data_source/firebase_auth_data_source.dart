@@ -1,12 +1,15 @@
-import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:rooh/core/errors/failure.dart';
 
 class FirebaseAuthDataSource {
   final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSign;
   FirebaseAuthDataSource(this._firebaseAuth, this._googleSign);
+
+  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
+
+  String? get currentUid => _firebaseAuth.currentUser?.uid;
+
   Future<UserCredential> signinWithGoogle() async {
     final googleUser = await _googleSign.signIn();
     if (googleUser == null) {
@@ -32,29 +35,36 @@ class FirebaseAuthDataSource {
         password: password,
       );
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        return await _firebaseAuth.createUserWithEmailAndPassword(
-          email: fakeEmail,
-          password: password,
-        );
+      // في نسخ Firebase الحديثة، الأكواد الخاصة زي user-not-found
+      // بقت متجمعة كلها تحت invalid-credential لأسباب أمنية، فمينفعش
+      // نعتمد على الـ code وحده عشان نعرف الحساب مش موجود فعلاً ولا
+      // الباسورد غلط بس. بنجرب ننشئ الحساب كـ fallback؛ لو فشل بـ
+      // email-already-in-use يبقى الحساب موجود والمشكلة كانت باسورد غلط.
+      if (e.code == 'user-not-found' || e.code == 'invalid-credential') {
+        try {
+          return await _firebaseAuth.createUserWithEmailAndPassword(
+            email: fakeEmail,
+            password: password,
+          );
+        } on FirebaseAuthException catch (createError) {
+          if (createError.code == 'email-already-in-use') {
+            throw FirebaseAuthException(
+              code: 'wrong-password',
+              message: 'كلمة المرور غير صحيحة',
+            );
+          }
+          rethrow;
+        }
       }
       rethrow;
     }
   }
 
-  Future<Either<Failure, void>> signOut() async {
-    try {
-      await _firebaseAuth.signOut();
-
-      if (await _googleSign.isSignedIn()) {
-        await _googleSign.signOut();
-        await _googleSign.disconnect();
-      }
-      return Right(null);
-    } catch (e, st) {
-      return Left(
-        Failure(message: 'فشل تسجيل الخروج', cause: e, stackTrace: st),
-      );
+  Future<void> signOut() async {
+    await _firebaseAuth.signOut();
+    if (await _googleSign.isSignedIn()) {
+      await _googleSign.signOut();
+      await _googleSign.disconnect();
     }
   }
 }

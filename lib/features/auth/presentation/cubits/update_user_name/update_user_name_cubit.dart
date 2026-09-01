@@ -9,10 +9,11 @@ class UpdateUserNameCubit extends Cubit<UpdateUserNameState> {
   UpdateUserNameCubit(this._userNameUsecase) : super(UpdateUserNameInitial());
 
   Future<void> updateUserName(String newName) async {
+    emit(UpdateUserNameLoading());
     final result = await _userNameUsecase(newName: newName);
     result.fold(
       (f) => emit(UpdateUserNameError(message: f.message)),
-      (r) => emit(UpdtaeUserNameSucced()),
+      (_) => emit(UpdtaeUserNameSucced()),
     );
   }
 }

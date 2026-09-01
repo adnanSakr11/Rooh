@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:firebase_auth/firebase_auth.dart' as fb;
 import 'package:flutter/foundation.dart';
 import 'package:rooh/core/errors/failure.dart';
 import 'package:rooh/features/auth/data/data_source/fire_store_user_data_soruce.dart';
@@ -14,7 +13,7 @@ class AuthRepoImpl extends AuthRepo {
   AuthRepoImpl(this._authDataSource, this._userDataSoruce);
 
   Future<UserModel> _ensureUserProfile(
-    fb.UserCredential credential, {
+    dynamic credential, {
     required String? phoneNumber,
   }) async {
     final firebaseUser = credential.user!;
@@ -23,9 +22,11 @@ class AuthRepoImpl extends AuthRepo {
       final existing = await _userDataSoruce.getUserProfile(firebaseUser.uid);
       if (existing != null) return existing;
     }
-    final defaultName =
-        firebaseUser.displayName ??
-        'User${firebaseUser.uid.replaceAll(RegExp(r'[^0-9]'), '').padLeft(4, '0').substring((firebaseUser.uid.replaceAll(RegExp(r'[^0-9]'), '').length >= 4) ? firebaseUser.uid.replaceAll(RegExp(r'[^0-9]'), '').length - 4 : 0)}';
+    final digits = firebaseUser.uid.replaceAll(RegExp(r'[^0-9]'), '');
+    final last4 = digits.length >= 4
+        ? digits.substring(digits.length - 4)
+        : digits.padLeft(4, '0');
+    final defaultName = firebaseUser.displayName ?? 'User$last4';
 
     final newUser = UserModel(
       phoneNumber,
@@ -39,7 +40,7 @@ class AuthRepoImpl extends AuthRepo {
 
   @override
   Stream<UserEntity?> get authStateChanges {
-    return fb.FirebaseAuth.instance.authStateChanges().asyncExpand((fbUser) {
+    return _authDataSource.authStateChanges.asyncExpand((fbUser) {
       if (fbUser == null) return Stream.value(null);
       return _userDataSoruce.streamUserProfile(fbUser.uid);
     });
@@ -53,7 +54,6 @@ class AuthRepoImpl extends AuthRepo {
       return Right(user);
     } catch (e, st) {
       debugPrint('❌ signinWithGoogle real error: $e');
-      debugPrint('❌ stackTrace: $st');
       return Left(
         Failure(message: 'فشل تسجيل الدخول بجوجل', stackTrace: st, cause: e),
       );
@@ -75,20 +75,15 @@ class AuthRepoImpl extends AuthRepo {
         phoneNumber: phoneNumber,
       );
       return Right(user);
-    } on fb.FirebaseAuthException catch (e) {
-      return Left(Failure(message: _mapAuthError(e.code)));
-    } catch (e, st) {
-      debugPrint('❌ signinWithPhoneAndpass real error: $e');
-      debugPrint('❌ stackTrace: $st');
-      return Left(
-        Failure(message: 'فشل تسجيل الدخول', cause: e, stackTrace: st),
-      );
+    } on Exception catch (e, st) {
+      final code = _extractFirebaseCode(e);
+      return Left(Failure(message: _mapAuthError(code), cause: e, stackTrace: st));
     }
   }
 
   @override
   Future<Either<Failure, void>> updateUserName(String newName) async {
-    final uid = fb.FirebaseAuth.instance.currentUser?.uid;
+    final uid = _authDataSource.currentUid;
     if (uid == null) {
       return Left(Failure(message: 'يجب تسجيل الدخول أولاً'));
     }
@@ -102,6 +97,26 @@ class AuthRepoImpl extends AuthRepo {
     }
   }
 
+  @override
+  Future<Either<Failure, void>> signOut() async {
+    try {
+      await _authDataSource.signOut();
+      return const Right(null);
+    } catch (e, st) {
+      return Left(
+        Failure(message: 'فشل تسجيل الخروج', cause: e, stackTrace: st),
+      );
+    }
+  }
+
+  String _extractFirebaseCode(Object e) {
+    try {
+      return (e as dynamic).code as String;
+    } catch (_) {
+      return '';
+    }
+  }
+
   String _mapAuthError(String code) {
     switch (code) {
       case 'wrong-password':
@@ -110,20 +125,16 @@ class AuthRepoImpl extends AuthRepo {
         return 'رقم الهاتف غير صالح';
       case 'weak-password':
         return 'كلمة المرور ضعيفة جدًا';
+      case 'invalid-credential':
+        return 'رقم الهاتف أو كلمة المرور غير صحيحة';
+      case 'too-many-requests':
+        return 'محاولات كتير، حاول لاحقًا';
+      case 'network-request-failed':
+        return 'مشكلة في الاتصال بالإنترنت';
+      case 'user-disabled':
+        return 'الحساب موقوف';
       default:
         return 'حدث خطأ، حاول مرة أخرى';
-    }
-  }
-
-  @override
-  Future<Either<Failure, void>> signOut() async {
-    try {
-      await _authDataSource.signOut();
-      return Right(null);
-    } catch (e, st) {
-      return Left(
-        Failure(message: 'فشل تسجيل الخروج', cause: e, stackTrace: st),
-      );
     }
   }
 }

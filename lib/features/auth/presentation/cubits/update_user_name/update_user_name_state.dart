@@ -9,13 +9,13 @@ sealed class UpdateUserNameState extends Equatable {
 
 final class UpdateUserNameInitial extends UpdateUserNameState {}
 
-final class UpdtaeUserNameSucced extends UpdateUserNameInitial {}
+final class UpdateUserNameLoading extends UpdateUserNameState {}
 
-final class UpdateUserNameLoading extends UpdateUserNameInitial {}
+final class UpdtaeUserNameSucced extends UpdateUserNameState {}
 
-final class UpdateUserNameError extends UpdateUserNameInitial {
+final class UpdateUserNameError extends UpdateUserNameState {
   final String message;
-  UpdateUserNameError({required this.message});
+  const UpdateUserNameError({required this.message});
   @override
   List<Object> get props => [message];
 }
