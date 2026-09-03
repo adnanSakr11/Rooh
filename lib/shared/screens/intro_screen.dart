@@ -3,14 +3,14 @@ import 'package:rooh/features/products/presentation/screens/products_screen.dart
 
 import '../../features/products/presentation/widgets/custom_gnav.dart';
 
-class IntroPage extends StatefulWidget {
-  const IntroPage({super.key});
+class IntroScreen extends StatefulWidget {
+  const IntroScreen({super.key});
 
   @override
-  State<IntroPage> createState() => _IntroPageState();
+  State<IntroScreen> createState() => _IntroScreenState();
 }
 
-class _IntroPageState extends State<IntroPage> {
+class _IntroScreenState extends State<IntroScreen> {
   int _selectedIndex = 0;
   void navigateBottomBar(int index) {
     setState(() {
@@ -18,7 +18,7 @@ class _IntroPageState extends State<IntroPage> {
     });
   }
 
-  List<Widget> get pages => [ ProductsScreen()];
+  List<Widget> get pages => [ProductsScreen()];
 
   @override
   Widget build(BuildContext context) {

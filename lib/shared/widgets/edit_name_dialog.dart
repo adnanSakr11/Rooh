@@ -3,13 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rooh/core/const/app_const.dart';
 import 'package:rooh/features/auth/presentation/cubits/update_user_name/update_user_name_cubit.dart';
 
-/// بيفتح dialog لتعديل اسم اليوزر.
-///
-/// مهم: بناخد الـ cubit من الـ context بتاع اللي نادى الدالة (لازم يكون
-/// أب لـ BlocProvider<UpdateUserNameCubit>)، وبعدين بنعديه يدويًا لجوه
-/// الـ dialog عن طريق BlocProvider.value. السبب: showDialog بيحط الـ
-/// widget الجديد جوه الـ Navigator مباشرة، مش جوه الشجرة اللي احنا فيها،
-/// فلو معملناش كده الـ dialog مش هيلاقي الـ cubit.
 Future<void> showEditNameDialog({
   required BuildContext context,
   required String currentName,

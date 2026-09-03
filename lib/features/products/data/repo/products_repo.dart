@@ -25,6 +25,7 @@ class ProductRepositoryImpl extends ProductsRepo {
             description: seed.description,
             price: seed.price,
             imageUrl: imageUrl,
+            id: seed.id
           );
         }),
       );

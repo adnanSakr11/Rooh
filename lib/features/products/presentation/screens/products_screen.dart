@@ -11,7 +11,7 @@ import 'package:rooh/features/products/data/repo/products_repo.dart';
 import 'package:rooh/features/products/domain/usecases/fetch_images_on_pexels_usecase.dart';
 import 'package:rooh/features/products/domain/usecases/search_app_products.dart';
 import 'package:rooh/features/products/presentation/cubits/cubit/products_cubit.dart';
-import 'package:rooh/shared/screens/splash_screen.dart';
+import 'package:rooh/shared/screens/intro_screen.dart';
 import 'package:rooh/shared/widgets/app_search_bar.dart';
 import 'package:rooh/shared/widgets/edit_name_dialog.dart';
 import '../../../../core/injection/service_locator.dart';
@@ -34,9 +34,7 @@ class ProductsScreen extends StatelessWidget {
             SearchAppProductsUsecase(),
           )..loadingProducts(),
         ),
-        BlocProvider(
-          create: (_) => SignoutCubit(getIt<SignOutUsecasse>()),
-        ),
+        BlocProvider(create: (_) => SignoutCubit(getIt<SignOutUsecasse>())),
         BlocProvider(
           create: (_) => UpdateUserNameCubit(getIt<UpdateUserNameUsecase>()),
         ),
@@ -60,9 +58,10 @@ class _ProductsView extends StatelessWidget {
           return AppDrawer(
             onSignOut: () async {
               await context.read<SignoutCubit>().signOut();
-              Navigator.push(
+              Navigator.pushReplacement(
+                // ignore: use_build_context_synchronously
                 context,
-                MaterialPageRoute(builder: (_) => const SplashScreen()),
+                MaterialPageRoute(builder: (_) => const IntroScreen()),
               );
             },
             onLoginTap: () {

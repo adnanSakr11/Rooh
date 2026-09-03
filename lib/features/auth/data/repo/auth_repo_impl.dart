@@ -40,10 +40,22 @@ class AuthRepoImpl extends AuthRepo {
 
   @override
   Stream<UserEntity?> get authStateChanges {
-    return _authDataSource.authStateChanges.asyncExpand((fbUser) {
-      if (fbUser == null) return Stream.value(null);
-      return _userDataSoruce.streamUserProfile(fbUser.uid);
+    return _authDataSource.authStateChanges.asyncExpand((fbUser) async* {
+      if (fbUser == null) {
+        yield null;
+        return;
+      }
+      await _waitForProfileToExist(fbUser.uid);
+      yield* _userDataSoruce.streamUserProfile(fbUser.uid);
     });
+  }
+
+  Future<void> _waitForProfileToExist(String uid) async {
+    for (var i = 0; i < 5; i++) {
+      final profile = await _userDataSoruce.getUserProfile(uid);
+      if (profile != null) return;
+      await Future.delayed(const Duration(milliseconds: 150));
+    }
   }
 
   @override
@@ -77,7 +89,9 @@ class AuthRepoImpl extends AuthRepo {
       return Right(user);
     } on Exception catch (e, st) {
       final code = _extractFirebaseCode(e);
-      return Left(Failure(message: _mapAuthError(code), cause: e, stackTrace: st));
+      return Left(
+        Failure(message: _mapAuthError(code), cause: e, stackTrace: st),
+      );
     }
   }
 

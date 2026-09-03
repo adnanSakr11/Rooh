@@ -14,9 +14,7 @@ import 'firebase_options.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   setupAuthDependencies();
 
@@ -47,7 +45,7 @@ class Rooh extends StatelessWidget {
             return SplashScreen(
               onContinue: () => Navigator.pushReplacement(
                 context,
-                SwipeUpPageRoute(builder: (_) => const IntroPage()),
+                SwipeUpPageRoute(builder: (_) => const IntroScreen()),
               ),
             );
           },
