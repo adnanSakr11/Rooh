@@ -8,12 +8,12 @@ class GoogleSigninCubit extends Cubit<GoogleSigninState> {
   final SigninWithGoogleUsecase _googleUsecase;
   GoogleSigninCubit(this._googleUsecase) : super(GoogleSigninInitial());
   Future<void> googleSignin() async {
-    emit(GoolgeSiginLoading());
+    emit(GoogleSiginLoading());
 
     final result = await _googleUsecase();
     result.fold(
-      (f) => emit(GoolgeSiginError(message: f.message)),
-      (_) => emit(GoolgeSiginSucces()),
+      (f) => emit(GoogleSiginError(message: f.message)),
+      (_) => emit(GoogleSiginSucces()),
     );
   }
 }

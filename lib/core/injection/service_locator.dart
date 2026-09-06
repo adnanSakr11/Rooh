@@ -13,13 +13,27 @@ import '../../features/auth/domain/usecases/signin_with_phone_and_pass.dart';
 import '../../features/auth/domain/usecases/update_user_name.dart';
 import '../../features/auth/domain/usecases/watch_auth_state_usecase.dart';
 
+import '../../features/products/data/data_source/data_source.dart';
+import '../../features/products/data/repo/products_repo.dart';
+import '../../features/products/domain/repo/products_repo.dart';
+import '../../features/products/domain/usecases/fetch_images_on_pexels_usecase.dart';
+import '../../features/products/domain/usecases/search_app_products.dart';
+
+import '../../features/cart/data/data_source/firestore_cart_data_source.dart';
+import '../../features/cart/data/data_source/local_cart_data_source.dart';
+import '../../features/cart/data/repo/cart_repo_impl.dart';
+import '../../features/cart/domain/repo/cart_repo.dart';
+import '../../features/cart/domain/usecases/add_item_to_cart_usecase.dart';
+import '../../features/cart/domain/usecases/clear_cart_usecase.dart';
+import '../../features/cart/domain/usecases/remove_item_from_cart.dart';
+import '../../features/cart/domain/usecases/update_cart_quantity_usecase.dart';
+import '../../features/cart/domain/usecases/watch_cart_usecase.dart';
+
 final getIt = GetIt.instance;
 
-/// بيتسجل مرة واحدة بس في main() قبل runApp.
-/// نطاقه Auth بس دلوقتي — Products وأي feature تانية لسه هيا هيا.
+/// ==================== AUTH ====================
 void setupAuthDependencies() {
-  // Infra singletons — نسخة واحدة بس من GoogleSignIn في التطبيق كله،
-  // ده اللي بيحل مشكلة التكرار اللي كانت بين main.dart و LoginScreen.
+  // Infra singletons — نسخة واحدة بس من GoogleSignIn في التطبيق كله.
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   getIt.registerLazySingleton<FirebaseFirestore>(
     () => FirebaseFirestore.instance,
@@ -34,7 +48,7 @@ void setupAuthDependencies() {
     () => FireStoreUserDataSoruce(getIt<FirebaseFirestore>()),
   );
 
-  // Repo — واحد بس، نفس الـ instance في كل التطبيق
+  // Repo
   getIt.registerLazySingleton<AuthRepo>(
     () => AuthRepoImpl(
       getIt<FirebaseAuthDataSource>(),
@@ -56,4 +70,43 @@ void setupAuthDependencies() {
     () => UpdateUserNameUsecase(authRepo: getIt<AuthRepo>()),
   );
   getIt.registerLazySingleton(() => SignOutUsecasse(getIt<AuthRepo>()));
+}
+
+/// ==================== PRODUCTS ====================
+void setupProductsDependencies() {
+  getIt.registerLazySingleton<PexelsDataSource>(() => const PexelsDataSource());
+
+  getIt.registerLazySingleton<ProductsRepo>(() => ProductRepositoryImpl());
+
+  getIt.registerLazySingleton(
+    () => FetchImagesOnPexelsUsecase(getIt<ProductsRepo>()),
+  );
+
+  getIt.registerLazySingleton(() => SearchAppProductsUsecase());
+}
+
+/// ==================== CART ====================
+void setupCartDependencies() {
+  getIt.registerLazySingleton<LocalCartDataSource>(() => LocalCartDataSource());
+  getIt.registerLazySingleton<FirestoreCartDataSource>(
+    () => FirestoreCartDataSource(getIt<FirebaseFirestore>()),
+  );
+
+  getIt.registerLazySingleton<CartRepo>(
+    () => CartRepoImpl(
+      getIt<LocalCartDataSource>(),
+      getIt<FirestoreCartDataSource>(),
+      getIt<FirebaseAuthDataSource>(),
+    ),
+  );
+
+  getIt.registerLazySingleton(() => WatchCartUsecase(getIt<CartRepo>()));
+  getIt.registerLazySingleton(() => AddItemToCartUsecase(getIt<CartRepo>()));
+  getIt.registerLazySingleton(
+    () => RemoveItemFromCartUsecase(getIt<CartRepo>()),
+  );
+  getIt.registerLazySingleton(
+    () => UpdateCartQuantityUsecase(getIt<CartRepo>()),
+  );
+  getIt.registerLazySingleton(() => ClearCartUsecase(getIt<CartRepo>()));
 }

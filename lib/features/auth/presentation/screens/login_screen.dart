@@ -66,9 +66,9 @@ class _LoginViewState extends State<_LoginView> {
       listeners: [
         BlocListener<GoogleSigninCubit, GoogleSigninState>(
           listener: (context, state) {
-            if (state is GoolgeSiginSucces) {
+            if (state is GoogleSiginSucces) {
               Navigator.pop(context);
-            } else if (state is GoolgeSiginError) {
+            } else if (state is GoogleSiginError) {
               _showError(context, state.message);
             }
           },
@@ -140,7 +140,7 @@ class _LoginViewState extends State<_LoginView> {
                     BlocBuilder<GoogleSigninCubit, GoogleSigninState>(
                       builder: (context, state) {
                         return _GoogleButton(
-                          isLoading: state is GoolgeSiginLoading,
+                          isLoading: state is GoogleSiginLoading,
                           onTap: () =>
                               context.read<GoogleSigninCubit>().googleSignin(),
                         );

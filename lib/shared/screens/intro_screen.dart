@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:rooh/features/cart/presentation/screens/cart_screen.dart';
 import 'package:rooh/features/products/presentation/screens/products_screen.dart';
 
-import '../../features/products/presentation/widgets/custom_gnav.dart';
+import '../widgets/custom_gnav.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
@@ -18,7 +19,7 @@ class _IntroScreenState extends State<IntroScreen> {
     });
   }
 
-  List<Widget> get pages => [ProductsScreen()];
+  List<Widget> get pages => [const ProductsScreen(), const CartScreen()];
 
   @override
   Widget build(BuildContext context) {

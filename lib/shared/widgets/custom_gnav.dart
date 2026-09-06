@@ -47,13 +47,13 @@ class CustomNavButton extends StatelessWidget {
                 : null,
           ),
 
-          // GButton(
-          //   icon: Icons.person_add_alt_1,
-          //   text: 'المجتمع',
-          //   textColor: colors.onSurface,
-          //   iconActiveColor: colors.onSurface,
-          //   iconColor: colors.onSurface,
-          // ),
+          GButton(
+            icon: Icons.shopping_cart_outlined,
+            text: 'العربة',
+            textColor: colors.onSurface,
+            iconActiveColor: colors.onSurface,
+            iconColor: colors.onSurface,
+          ),
 
           // GButton(
           //   icon: Icons.notifications_outlined,

@@ -11,6 +11,7 @@ analyzer:
   errors:
     depend_on_referenced_packages: ignore
     deprecated_member_use: ignore
+    unnecessary_underscores: ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:

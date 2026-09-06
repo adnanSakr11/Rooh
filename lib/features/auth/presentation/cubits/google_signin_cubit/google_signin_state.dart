@@ -9,13 +9,13 @@ sealed class GoogleSigninState extends Equatable {
 
 final class GoogleSigninInitial extends GoogleSigninState {}
 
-final class GoolgeSiginSucces extends GoogleSigninState {}
+final class GoogleSiginSucces extends GoogleSigninState {}
 
-final class GoolgeSiginLoading extends GoogleSigninState {}
+final class GoogleSiginLoading extends GoogleSigninState {}
 
-final class GoolgeSiginError extends GoogleSigninState {
+final class GoogleSiginError extends GoogleSigninState {
   final String message;
-  const GoolgeSiginError({required this.message});
+  const GoogleSiginError({required this.message});
   @override
   List<Object> get props => [message];
 }

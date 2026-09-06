@@ -16,6 +16,7 @@ class ProductsCubit extends Cubit<ProductsStates> {
   Future<void> loadingProducts() async {
     emit(ProductsLoading());
     final result = await _fetchProducts();
+    if (isClosed) return;
     result.fold(
       (f) => emit(ProductsError(message: f.message)),
       (r) => emit(ProductsLoaded(allProducts: r, displayedProducts: r)),

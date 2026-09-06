@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:rooh/core/const/app_const.dart';
 import 'package:rooh/features/products/data/models/products_model.dart';
 import 'package:rooh/shared/widgets/app_button.dart';
+import '../../../cart/presentation/cubits/cart/cart_cubit.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   const ProductDetailsScreen({super.key, required this.product});
@@ -105,6 +107,34 @@ class _ProductInfo extends StatelessWidget {
   final ColorScheme colors;
   final bool isMobile;
 
+  void _addToCart(BuildContext context) async {
+    final result = await context.read<CartCubit>().addToCart(product.id);
+    if (!context.mounted) return;
+
+    result.fold(
+      (failure) => ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            failure.message,
+            style: TextStyle(fontFamily: fontFamily),
+          ),
+          backgroundColor: Colors.redAccent,
+          behavior: SnackBarBehavior.floating,
+        ),
+      ),
+      (_) => ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'تمت الإضافة للسلة',
+            style: TextStyle(fontFamily: fontFamily),
+          ),
+          backgroundColor: colors.primary,
+          behavior: SnackBarBehavior.floating,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -178,6 +208,7 @@ class _ProductInfo extends StatelessWidget {
           text: 'اضافة الى العربة',
           backgroundColor: colors.primary.withOpacity(0.15),
           textColor: colors.primary,
+          onTap: () => _addToCart(context),
         ),
         const SizedBox(height: 12),
         AppButton(
