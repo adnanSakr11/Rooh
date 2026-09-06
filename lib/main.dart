@@ -16,7 +16,6 @@ import 'package:rooh/shared/screens/swipe_up.dart';
 import 'core/injection/service_locator.dart';
 import 'features/auth/domain/usecases/watch_auth_state_usecase.dart';
 import 'features/auth/presentation/cubits/authcubit/auth_cubit.dart';
-import 'features/cart/domain/repo/cart_repo.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -27,8 +26,6 @@ Future<void> main() async {
   setupAuthDependencies();
   setupProductsDependencies();
   setupCartDependencies();
-
-  runApp(const Rooh());
 
   runApp(const Rooh());
 }
