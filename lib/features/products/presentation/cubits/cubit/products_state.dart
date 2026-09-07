@@ -12,8 +12,8 @@ final class ProductsInitial extends ProductsStates {}
 final class ProductsLoading extends ProductsStates {}
 
 final class ProductsLoaded extends ProductsStates {
-  final List<ProductsModel> allProducts;
-  final List<ProductsModel> displayedProducts;
+  final List<ProductsEntity> allProducts;
+  final List<ProductsEntity> displayedProducts;
 
   const ProductsLoaded({
     required this.allProducts,

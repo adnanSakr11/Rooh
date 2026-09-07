@@ -5,7 +5,7 @@ import 'package:rooh/core/const/app_const.dart';
 import 'package:rooh/core/errors/failure.dart';
 import 'package:rooh/features/cart/presentation/models/cart_item_view.dart';
 import 'package:rooh/shared/widgets/app_button.dart';
-
+import '../../../products/presentation/extensions/products_extensions.dart';
 import '../cubits/cart/cart_cubit.dart';
 
 class CartScreen extends StatelessWidget {

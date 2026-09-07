@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:rooh/core/errors/failure.dart';
-import '../../data/models/products_model.dart';
+import '../entity/products_entity.dart';
 
 abstract class ProductsRepo {
-  Future<Either<Failure, List<ProductsModel>>> fetchImagesOnPexels();
+  Future<Either<Failure, List<ProductsEntity>>> fetchImagesOnPexels();
 }

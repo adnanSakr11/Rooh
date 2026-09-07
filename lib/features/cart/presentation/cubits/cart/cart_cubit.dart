@@ -10,7 +10,7 @@ import 'package:rooh/features/cart/domain/usecases/clear_cart_usecase.dart';
 import 'package:rooh/features/cart/domain/usecases/remove_item_from_cart.dart';
 import 'package:rooh/features/cart/domain/usecases/update_cart_quantity_usecase.dart';
 import 'package:rooh/features/cart/domain/usecases/watch_cart_usecase.dart';
-import 'package:rooh/features/products/data/models/products_model.dart';
+import 'package:rooh/features/products/domain/entity/products_entity.dart';
 import 'package:rooh/features/products/domain/usecases/fetch_images_on_pexels_usecase.dart';
 import '../../models/cart_item_view.dart';
 part 'cart_state.dart';
@@ -26,7 +26,7 @@ class CartCubit extends Cubit<CartState> {
 
   StreamSubscription<List<CartItemEntity>>? _cartSubscription;
   StreamSubscription<AuthState>? _authSubscription;
-  List<ProductsModel> _products = [];
+  List<ProductsEntity> _products = [];
 
   CartCubit(
     this._watchCart,
@@ -78,7 +78,7 @@ class CartCubit extends Cubit<CartState> {
     emit(CartLoaded(items: views, totalPrice: total));
   }
 
-  ProductsModel? _findProduct(String id) {
+  ProductsEntity? _findProduct(String id) {
     for (final p in _products) {
       if (p.id == id) return p;
     }

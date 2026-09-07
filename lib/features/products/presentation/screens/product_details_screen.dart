@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:rooh/core/const/app_const.dart';
-import 'package:rooh/features/products/data/models/products_model.dart';
+import 'package:rooh/features/products/domain/entity/products_entity.dart';
 import 'package:rooh/shared/widgets/app_button.dart';
 import '../../../cart/presentation/cubits/cart/cart_cubit.dart';
+import '../extensions/products_extensions.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
   const ProductDetailsScreen({super.key, required this.product});
 
-  final ProductsModel product;
+  final ProductsEntity product;
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +67,7 @@ class ProductDetailsScreen extends StatelessWidget {
 class _ProductImage extends StatelessWidget {
   const _ProductImage({required this.product, required this.colors});
 
-  final ProductsModel product;
+  final ProductsEntity product;
   final ColorScheme colors;
 
   @override
@@ -103,7 +104,7 @@ class _ProductInfo extends StatelessWidget {
     required this.isMobile,
   });
 
-  final ProductsModel product;
+  final ProductsEntity product;
   final ColorScheme colors;
   final bool isMobile;
 

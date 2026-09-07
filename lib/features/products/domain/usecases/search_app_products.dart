@@ -1,12 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:rooh/core/errors/failure.dart';
 
-import '../../data/models/products_model.dart';
+import '../entity/products_entity.dart';
 
 class SearchAppProductsUsecase {
-  Either<Failure, List<ProductsModel>> call(
+  Either<Failure, List<ProductsEntity>> call(
     String query,
-    List<ProductsModel> products,
+    List<ProductsEntity> products,
   ) {
     final results = products
         .where((p) => p.name.contains(query))

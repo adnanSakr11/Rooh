@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:rooh/core/errors/failure.dart';
 import 'package:rooh/features/products/data/data_source/data_source.dart';
-import 'package:rooh/features/products/data/models/products_model.dart';
+import 'package:rooh/features/products/domain/entity/products_entity.dart';
 import 'package:rooh/features/products/domain/repo/products_repo.dart';
 import '../data_source/products_seed_data.dart';
 
@@ -12,7 +12,7 @@ class ProductRepositoryImpl extends ProductsRepo {
       'https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg';
 
   @override
-  Future<Either<Failure, List<ProductsModel>>> fetchImagesOnPexels() async {
+  Future<Either<Failure, List<ProductsEntity>>> fetchImagesOnPexels() async {
     try {
       final products = await Future.wait(
         seeds.map((seed) async {
@@ -20,12 +20,12 @@ class ProductRepositoryImpl extends ProductsRepo {
               await _pexelsDataSource.fetchImageUrl(seed.searchQuery) ??
               _fallbackImageUrl;
 
-          return ProductsModel(
+          return ProductsEntity(
             name: seed.name,
             description: seed.description,
             price: seed.price,
             imageUrl: imageUrl,
-            id: seed.id
+            id: seed.id,
           );
         }),
       );
@@ -41,6 +41,4 @@ class ProductRepositoryImpl extends ProductsRepo {
       );
     }
   }
-
-
 }

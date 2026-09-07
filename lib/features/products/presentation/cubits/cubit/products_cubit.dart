@@ -1,7 +1,7 @@
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:rooh/features/products/data/models/products_model.dart';
+import 'package:rooh/features/products/domain/entity/products_entity.dart';
 import 'package:rooh/features/products/domain/usecases/fetch_images_on_pexels_usecase.dart';
 import 'package:rooh/features/products/domain/usecases/search_app_products.dart';
 
