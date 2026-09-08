@@ -161,7 +161,7 @@ class _ProductsView extends StatelessWidget {
                 padding: const EdgeInsets.all(12),
                 sliver: SliverGrid(
                   delegate: SliverChildBuilderDelegate((context, index) {
-                    return ProductCard(productsModel: products[index]);
+                    return ProductCard(productsEntity: products[index]);
                   }, childCount: products.length),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: crossAxisCount,

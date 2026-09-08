@@ -4,9 +4,9 @@ import '../extensions/products_extensions.dart';
 import '../screens/product_details_screen.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key, required this.productsModel});
+  const ProductCard({super.key, required this.productsEntity});
 
-  final ProductsEntity productsModel;
+  final ProductsEntity productsEntity;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class ProductCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (_) => ProductDetailsScreen(product: productsModel),
+            builder: (_) => ProductDetailsScreen(product: productsEntity),
           ),
         );
       },
@@ -33,7 +33,7 @@ class ProductCard extends StatelessWidget {
           children: [
             Expanded(
               child: Image.network(
-                productsModel.imageUrl,
+                productsEntity.imageUrl,
                 width: double.infinity,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => Container(
@@ -53,7 +53,7 @@ class ProductCard extends StatelessWidget {
                   Align(
                     alignment: AlignmentGeometry.topRight,
                     child: Text(
-                      productsModel.name,
+                      productsEntity.name,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: colors.onSurface,
@@ -64,7 +64,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    productsModel.formattedPrice,
+                    productsEntity.formattedPrice,
                     style: TextStyle(
                       color: colors.primary,
                       fontWeight: FontWeight.w600,
