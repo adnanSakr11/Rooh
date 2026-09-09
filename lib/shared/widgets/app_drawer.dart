@@ -34,7 +34,9 @@ class AppDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final isMobile = ResponsiveBreakpoints.of(context).isMobile;
-    final drawerWidth = isMobile ? MediaQuery.of(context).size.width * 0.82 : 340.0;
+    final drawerWidth = isMobile
+        ? MediaQuery.of(context).size.width * 0.82
+        : 340.0;
 
     return Drawer(
       width: drawerWidth,
@@ -46,7 +48,7 @@ class AppDrawer extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 12),
+                const SizedBox(height: 25),
                 if (state is Authenticated)
                   _AuthenticatedHeader(
                     userName: state.user.userName,
@@ -54,12 +56,17 @@ class AppDrawer extends StatelessWidget {
                     isMobile: isMobile,
                     onEditName: onEditName,
                   )
-                else
-                  _LoginPrompt(
-                    colors: colors,
-                    isMobile: isMobile,
-                    onTap: onLoginTap,
+                else ...[
+                  //Spacer(),
+                  Center(
+                    child: _LoginPrompt(
+                      colors: colors,
+                      isMobile: isMobile,
+                      onTap: onLoginTap,
+                    ),
                   ),
+                ],
+
                 const SizedBox(height: 8),
                 Divider(color: colors.onSurface.withOpacity(0.08), height: 1),
                 if (state is Authenticated) ...[
@@ -96,22 +103,6 @@ class AppDrawer extends StatelessWidget {
                     onTap: onSignOut,
                   ),
                   const SizedBox(height: 12),
-                ] else ...[
-                  const SizedBox(height: 8),
-                  _DrawerTile(
-                    icon: CupertinoIcons.info_circle,
-                    label: 'عن متجرنا',
-                    colors: colors,
-                    isMobile: isMobile,
-                    onTap: onAboutStore,
-                  ),
-                  _DrawerTile(
-                    icon: CupertinoIcons.phone,
-                    label: 'تواصل معنا',
-                    colors: colors,
-                    isMobile: isMobile,
-                    onTap: onContactUs,
-                  ),
                 ],
               ],
             );
@@ -143,6 +134,8 @@ class _AuthenticatedHeader extends StatelessWidget {
         vertical: 10,
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        // crossAxisAlignment: CrossAxisAlignment,
         children: [
           Expanded(
             child: Text(
@@ -158,7 +151,7 @@ class _AuthenticatedHeader extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 10),
           GestureDetector(
             onTap: onEditName,
             child: Container(
@@ -265,7 +258,11 @@ class _DrawerTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(icon, size: isMobile ? 20 : 22, color: color.withOpacity(0.85)),
+            Icon(
+              icon,
+              size: isMobile ? 20 : 22,
+              color: color.withOpacity(0.85),
+            ),
             const SizedBox(width: 14),
             Text(
               label,
