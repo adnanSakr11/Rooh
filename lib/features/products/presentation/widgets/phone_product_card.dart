@@ -23,13 +23,12 @@ class PhoneProductCard extends StatelessWidget {
       },
       child: Padding(
         padding: const EdgeInsets.only(right: 10.0, top: 12),
-        child: SizedBox(
-          width: double.infinity,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Expanded(
+              child: Padding(
                 padding: const EdgeInsets.only(top: 38, right: 12),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -37,9 +36,10 @@ class PhoneProductCard extends StatelessWidget {
                     Text(
                       textAlign: TextAlign.center,
                       maxLines: 1,
-                      overflow: TextOverflow.clip,
+                      overflow: TextOverflow.ellipsis,
                       productsEntity.name,
                       style: TextStyle(
+                        letterSpacing: -1,
                         fontSize: 20,
                         fontFamily: fontFamily,
                         color: colors.onSurface,
@@ -58,19 +58,18 @@ class PhoneProductCard extends StatelessWidget {
                   ],
                 ),
               ),
-              // const SizedBox(width: 5),
-              Container(
-                height: 190,
-                width: 200,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: colors.secondary,
-                ),
-                clipBehavior: Clip.hardEdge,
-                child: Image.network(productsEntity.imageUrl, fit: BoxFit.fill),
+            ),
+            Container(
+              height: 150,
+              width: 150,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: colors.secondary,
               ),
-            ],
-          ),
+              clipBehavior: Clip.hardEdge,
+              child: Image.network(productsEntity.imageUrl, fit: BoxFit.fill),
+            ),
+          ],
         ),
       ),
     );

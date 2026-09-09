@@ -24,7 +24,7 @@ class CustomNavButton extends StatelessWidget {
       ),
       padding: EdgeInsets.only(bottom: 14, top: 5),
       child: GNav(
-        gap: 4,
+        gap: 2,
         onTabChange: (value) => onTabChange!(value),
         mainAxisAlignment: MainAxisAlignment.center,
         color: colors.onSurface,
