@@ -54,6 +54,8 @@ class _AppSearchBarState extends State<AppSearchBar> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     return TextField(
+      textAlign: TextAlign.end,
+      textAlignVertical: TextAlignVertical.bottom,
       controller: _controller,
       style: TextStyle(color: colors.onSurface),
       cursorColor: colors.onSurface,
@@ -63,8 +65,14 @@ class _AppSearchBarState extends State<AppSearchBar> {
       decoration: InputDecoration(
         filled: true,
         fillColor: widget.fillColor,
+
         hintText: widget.hintText,
-        hintStyle: TextStyle(color: colors.onSurface, fontFamily: fontFamily),
+        hintStyle: TextStyle(
+          color: colors.onSurface,
+          fontFamily: fontFamily,
+          fontWeight: FontWeight.w400,
+          fontSize: 18,
+        ),
         prefixIcon: widget.prefixIcon,
         prefixIconColor: colors.onSurface,
 
@@ -77,12 +85,12 @@ class _AppSearchBarState extends State<AppSearchBar> {
 
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(color: colors.primary, width: 1),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(20),
         ),
 
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: colors.primary, width: 2),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(20),
         ),
       ),
     );

@@ -80,7 +80,7 @@ class ProductsView extends StatelessWidget {
                             height: 50,
                             child: AppSearchBar(
                               fillColor: colors.surface,
-                              hintText: 'ابحث عن منتجك',
+                              hintText: '...ابحث عن منتجك',
                               prefixIcon: Icon(
                                 Icons.search_rounded,
                                 color: colors.onSurface,

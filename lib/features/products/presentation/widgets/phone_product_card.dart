@@ -40,7 +40,7 @@ class PhoneProductCard extends StatelessWidget {
                       productsEntity.name,
                       style: TextStyle(
                         letterSpacing: -1,
-                        fontSize: 20,
+                        fontSize: 18,
                         fontFamily: fontFamily,
                         color: colors.onSurface,
                         fontWeight: FontWeight.bold,
@@ -50,7 +50,7 @@ class PhoneProductCard extends StatelessWidget {
                     Text(
                       productsEntity.formattedPrice,
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 16,
                         color: colors.primary,
                         fontWeight: FontWeight.w600,
                       ),

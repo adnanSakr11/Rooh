@@ -5,13 +5,6 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:rooh/core/const/app_const.dart';
 import 'package:rooh/features/auth/presentation/cubits/authcubit/auth_cubit.dart';
 
-/// الدراور العام للتطبيق. بيتغير محتواه حسب حالة الـ [AuthCubit]:
-/// - لو مسجّل دخول: اسم اليوزر + قايمة إجراءات + تسجيل خروج.
-/// - لو مش مسجّل: زرار تسجيل دخول بس.
-///
-/// الـ widget ده متعمدين نخليه معزول عن أي Cubit خاص بالإجراءات
-/// (تعديل الاسم / تسجيل الخروج) — بياخدهم كـ callbacks عشان الشاشة
-/// اللي بتستضيفه هي اللي تقرر إزاي تنفذهم.
 class AppDrawer extends StatelessWidget {
   const AppDrawer({
     super.key,
@@ -57,7 +50,6 @@ class AppDrawer extends StatelessWidget {
                     onEditName: onEditName,
                   )
                 else ...[
-                  //Spacer(),
                   Center(
                     child: _LoginPrompt(
                       colors: colors,
@@ -65,28 +57,73 @@ class AppDrawer extends StatelessWidget {
                       onTap: onLoginTap,
                     ),
                   ),
-                ],
-
-                const SizedBox(height: 8),
-                Divider(color: colors.onSurface.withOpacity(0.08), height: 1),
-                if (state is Authenticated) ...[
-                  const SizedBox(height: 8),
                   _DrawerTile(
-                    icon: CupertinoIcons.bag,
-                    label: 'طلباتي',
-                    colors: colors,
-                    isMobile: isMobile,
-                    onTap: onMyOrders,
-                  ),
-                  _DrawerTile(
-                    icon: CupertinoIcons.info_circle,
+                    icon: Icon(
+                      CupertinoIcons.info_circle,
+                      size: isMobile ? 22 : 24,
+                      color: colors.onSurface,
+                    ),
                     label: 'عن متجرنا',
                     colors: colors,
                     isMobile: isMobile,
                     onTap: onAboutStore,
                   ),
                   _DrawerTile(
-                    icon: CupertinoIcons.phone,
+                    icon: Icon(
+                      CupertinoIcons.phone,
+                      size: isMobile ? 22 : 24,
+                      color: colors.onSurface,
+                    ),
+                    label: 'تواصل معنا',
+                    colors: colors,
+                    isMobile: isMobile,
+                    onTap: onContactUs,
+                  ),
+                  _DrawerTile(
+                    icon: Image.asset(
+                      'assets/images/social-media-icon.png',
+                      height: isMobile ? 22 : 24,
+                      width: isMobile ? 22 : 24,
+                    ),
+                    label: 'السوشيال الميديا',
+                    colors: colors,
+                    isMobile: isMobile,
+                    onTap: onContactUs,
+                  ),
+                ],
+
+                // const SizedBox(height: 8),
+                // Divider(color: colors.onSurface.withOpacity(0.08), height: 1),
+                if (state is Authenticated) ...[
+                  const SizedBox(height: 8),
+                  _DrawerTile(
+                    icon: Icon(
+                      CupertinoIcons.bag,
+                      size: isMobile ? 22 : 24,
+                      color: colors.onSurface,
+                    ),
+                    label: 'طلباتي',
+                    colors: colors,
+                    isMobile: isMobile,
+                    onTap: onMyOrders,
+                  ),
+                  _DrawerTile(
+                    icon: Icon(
+                      CupertinoIcons.info_circle,
+                      size: isMobile ? 22 : 24,
+                      color: colors.onSurface,
+                    ),
+                    label: 'عن متجرنا',
+                    colors: colors,
+                    isMobile: isMobile,
+                    onTap: onAboutStore,
+                  ),
+                  _DrawerTile(
+                    icon: Icon(
+                      CupertinoIcons.phone,
+                      size: isMobile ? 22 : 24,
+                      color: colors.onSurface,
+                    ),
                     label: 'تواصل معنا',
                     colors: colors,
                     isMobile: isMobile,
@@ -95,7 +132,11 @@ class AppDrawer extends StatelessWidget {
                   const Spacer(),
                   Divider(color: colors.onSurface.withOpacity(0.08), height: 1),
                   _DrawerTile(
-                    icon: CupertinoIcons.square_arrow_right,
+                    icon: Icon(
+                      CupertinoIcons.square_arrow_right,
+                      size: isMobile ? 22 : 24,
+                      color: colors.onSurface,
+                    ),
                     label: 'تسجيل الخروج',
                     colors: colors,
                     isMobile: isMobile,
@@ -194,6 +235,7 @@ class _LoginPrompt extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
+          height: 55,
           padding: EdgeInsets.symmetric(
             vertical: isMobile ? 14 : 16,
             horizontal: 18,
@@ -238,7 +280,7 @@ class _DrawerTile extends StatelessWidget {
     this.isDestructive = false,
   });
 
-  final IconData icon;
+  final Widget icon;
   final String label;
   final ColorScheme colors;
   final bool isMobile;
@@ -257,22 +299,19 @@ class _DrawerTile extends StatelessWidget {
           vertical: isMobile ? 13 : 15,
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Icon(
-              icon,
-              size: isMobile ? 20 : 22,
-              color: color.withOpacity(0.85),
-            ),
-            const SizedBox(width: 14),
             Text(
               label,
               style: TextStyle(
                 fontFamily: fontFamily,
-                fontSize: isMobile ? 15 : 17,
+                fontSize: isMobile ? 18 : 20,
                 fontWeight: FontWeight.w500,
                 color: color,
               ),
             ),
+            const SizedBox(width: 14),
+            icon,
           ],
         ),
       ),
