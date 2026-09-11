@@ -60,7 +60,6 @@ class ProductsView extends StatelessWidget {
               SliverToBoxAdapter(
                 child: Column(
                   children: [
-                    const SizedBox(height: 15),
                     Row(
                       children: [
                         Builder(
@@ -69,7 +68,7 @@ class ProductsView extends StatelessWidget {
                                 Scaffold.of(context).openEndDrawer(),
                             icon: Icon(
                               Icons.person_outline,
-                              size: 28,
+                              size: 24,
                               color: colors.onSurface,
                             ),
                           ),
@@ -82,9 +81,9 @@ class ProductsView extends StatelessWidget {
                               fillColor: colors.surface,
                               hintText: '...ابحث عن منتجك',
                               prefixIcon: Icon(
-                                Icons.search_rounded,
+                                Icons.search_outlined,
                                 color: colors.onSurface,
-                                size: 28,
+                                size: 22,
                               ),
                               onChanged: (query) {
                                 context.read<ProductsCubit>().search(query);

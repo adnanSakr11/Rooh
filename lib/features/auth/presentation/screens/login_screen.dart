@@ -84,121 +84,104 @@ class _LoginViewState extends State<_LoginView> {
         ),
       ],
       child: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                colors.primary,
-                Color.lerp(colors.primary, Colors.black, 0.35)!,
-              ],
-            ),
-          ),
-          child: SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(
-                        CupertinoIcons.xmark,
-                        color: Colors.white,
+        backgroundColor: colors.primary,
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 20),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(CupertinoIcons.xmark, color: Colors.white),
+                    alignment: Alignment.centerRight,
+                  ),
+                  const SizedBox(height: 20),
+                  Image.asset(logoAsset, height: 90),
+                  const SizedBox(height: 18),
+                  Text(
+                    'روح',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: fontFamily,
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    'سجّل دخولك وحول فكرتك لقطعة لها روح',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: fontFamily,
+                      fontSize: 14,
+                      color: Colors.white.withOpacity(0.75),
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  BlocBuilder<GoogleSigninCubit, GoogleSigninState>(
+                    builder: (context, state) {
+                      return _GoogleButton(
+                        isLoading: state is GoogleSiginLoading,
+                        onTap: () =>
+                            context.read<GoogleSigninCubit>().googleSignin(),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 28),
+                  const _OrDivider(),
+                  const SizedBox(height: 28),
+                  _AuthTextField(
+                    controller: _phoneController,
+                    hintText: 'رقم الهاتف',
+                    icon: CupertinoIcons.phone,
+                    keyboardType: TextInputType.phone,
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'من فضلك أدخل رقم الهاتف';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 14),
+                  _AuthTextField(
+                    controller: _passwordController,
+                    hintText: 'كلمة المرور',
+                    icon: CupertinoIcons.lock,
+                    obscureText: _obscurePassword,
+                    suffixIcon: IconButton(
+                      onPressed: () =>
+                          setState(() => _obscurePassword = !_obscurePassword),
+                      icon: Icon(
+                        _obscurePassword
+                            ? CupertinoIcons.eye_slash
+                            : CupertinoIcons.eye,
+                        color: Colors.white.withOpacity(0.7),
+                        size: 20,
                       ),
-                      alignment: Alignment.centerRight,
                     ),
-                    const SizedBox(height: 20),
-                    Image.asset(logoAsset, height: 90),
-                    const SizedBox(height: 18),
-                    Text(
-                      'روح',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: fontFamily,
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      'سجّل دخولك وحول فكرتك لقطعة لها روح',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontFamily: fontFamily,
-                        fontSize: 14,
-                        color: Colors.white.withOpacity(0.75),
-                      ),
-                    ),
-                    const SizedBox(height: 40),
-                    BlocBuilder<GoogleSigninCubit, GoogleSigninState>(
-                      builder: (context, state) {
-                        return _GoogleButton(
-                          isLoading: state is GoogleSiginLoading,
-                          onTap: () =>
-                              context.read<GoogleSigninCubit>().googleSignin(),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 28),
-                    const _OrDivider(),
-                    const SizedBox(height: 28),
-                    _AuthTextField(
-                      controller: _phoneController,
-                      hintText: 'رقم الهاتف',
-                      icon: CupertinoIcons.phone,
-                      keyboardType: TextInputType.phone,
-                      validator: (value) {
-                        if (value == null || value.trim().isEmpty) {
-                          return 'من فضلك أدخل رقم الهاتف';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 14),
-                    _AuthTextField(
-                      controller: _passwordController,
-                      hintText: 'كلمة المرور',
-                      icon: CupertinoIcons.lock,
-                      obscureText: _obscurePassword,
-                      suffixIcon: IconButton(
-                        onPressed: () => setState(
-                          () => _obscurePassword = !_obscurePassword,
-                        ),
-                        icon: Icon(
-                          _obscurePassword
-                              ? CupertinoIcons.eye_slash
-                              : CupertinoIcons.eye,
-                          color: Colors.white.withOpacity(0.7),
-                          size: 20,
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.length < 6) {
-                          return 'كلمة المرور 6 أحرف على الأقل';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 26),
-                    BlocBuilder<PhoneSigninCubit, PhoneSigninState>(
-                      builder: (context, state) {
-                        return _SubmitButton(
-                          isLoading: state is PhoneSigninLoading,
-                          colors: colors,
-                          onTap: _submitPhoneForm,
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 30),
-                  ],
-                ),
+                    validator: (value) {
+                      if (value == null || value.length < 6) {
+                        return 'كلمة المرور 6 أحرف على الأقل';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 26),
+                  BlocBuilder<PhoneSigninCubit, PhoneSigninState>(
+                    builder: (context, state) {
+                      return _SubmitButton(
+                        isLoading: state is PhoneSigninLoading,
+                        colors: colors,
+                        onTap: _submitPhoneForm,
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 30),
+                ],
               ),
             ),
           ),
@@ -253,7 +236,11 @@ class _GoogleButton extends StatelessWidget {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const _GoogleG(),
+                  Image.asset(
+                    googleIcon,
+                    height: 22,
+                    width: 22,
+                  ),
                   const SizedBox(width: 12),
                   Text(
                     'المتابعة بحساب جوجل',
@@ -266,23 +253,6 @@ class _GoogleButton extends StatelessWidget {
                   ),
                 ],
               ),
-      ),
-    );
-  }
-}
-
-/// أيقونة "G" بسيطة بلون جوجل الأزرق، بديل خفيف لصورة شعار حقيقية.
-class _GoogleG extends StatelessWidget {
-  const _GoogleG();
-
-  @override
-  Widget build(BuildContext context) {
-    return const Text(
-      'G',
-      style: TextStyle(
-        fontSize: 20,
-        fontWeight: FontWeight.w900,
-        color: Color(0xFF4285F4),
       ),
     );
   }

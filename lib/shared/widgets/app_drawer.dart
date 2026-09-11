@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:rooh/core/const/app_const.dart';
 import 'package:rooh/features/auth/presentation/cubits/authcubit/auth_cubit.dart';
 import 'package:rooh/shared/widgets/drawer_widgets/auth_header.dart';
 
@@ -84,7 +85,7 @@ class AppDrawer extends StatelessWidget {
                   ),
                   DrawerTile(
                     icon: Image.asset(
-                      'assets/images/social-media-icon.png',
+                      socialIcon,
                       height: isMobile ? 22 : 24,
                       width: isMobile ? 22 : 24,
                     ),
@@ -126,6 +127,17 @@ class AppDrawer extends StatelessWidget {
                       color: colors.onSurface,
                     ),
                     label: 'تواصل معنا',
+                    colors: colors,
+                    isMobile: isMobile,
+                    onTap: onContactUs,
+                  ),
+                  DrawerTile(
+                    icon: Image.asset(
+                      socialIcon,
+                      height: isMobile ? 22 : 24,
+                      width: isMobile ? 22 : 24,
+                    ),
+                    label: 'السوشيال الميديا',
                     colors: colors,
                     isMobile: isMobile,
                     onTap: onContactUs,

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:rooh/core/const/app_const.dart';
 import '../../core/const/splash_const.dart';
+import '../widgets/splash_header_widgets/splash_header.dart';
+import '../widgets/splash_header_widgets/swipe_up_hint.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key, this.onContinue});
 
-  /// بيتنفّذ بعد ما exit animation الشاشة تخلص (مش فوراً لحظة السحب).
-  /// الشاشة نفسها لسه ما بتعرفش هي رايحة فين، الـ navigation قرار
-  /// الطبقة اللي بتستخدمها — يفضّل تستخدم SwipeUpPageRoute هناك عشان
-  /// الحركة تكمّل بعضها بصرياً.
   final VoidCallback? onContinue;
 
   @override
@@ -153,14 +150,14 @@ class _SplashScreenState extends State<SplashScreen>
                       position: _headerSlide,
                       child: FadeTransition(
                         opacity: _fade,
-                        child: const _SplashHeader(),
+                        child: const SplashHeader(),
                       ),
                     ),
                     const Spacer(flex: SplashConstants.flexMiddle),
                     AnimatedOpacity(
                       opacity: _isHintVisible ? 1 : 0,
                       duration: const Duration(milliseconds: 400),
-                      child: _SwipeUpHint(pulse: _hintPulse),
+                      child: SwipeUpHint(pulse: _hintPulse),
                     ),
                     const Spacer(flex: SplashConstants.flexBottom),
                   ],
@@ -169,89 +166,6 @@ class _SplashScreenState extends State<SplashScreen>
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _SplashHeader extends StatelessWidget {
-  const _SplashHeader();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return Column(
-      children: [
-        Image.asset(
-          logoAsset,
-          height: SplashConstants.logoHeight,
-          errorBuilder: (context, error, stackTrace) => Icon(
-            Icons.image_not_supported_outlined,
-            size: SplashConstants.logoHeight * 0.6,
-            color: colors.onSurface.withOpacity(0.3),
-          ),
-        ),
-        const SizedBox(height: SplashConstants.spacingLogoToTitle),
-        Text(
-          'روح',
-          style: textTheme.headlineMedium!.copyWith(
-            fontFamily: fontFamily,
-            fontSize: SplashConstants.titleFontSize,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: SplashConstants.spacingTitleToSubtitle),
-        Text(
-          'من فكرتك... لقطعة لها روح',
-          textAlign: TextAlign.center,
-          style: textTheme.bodyLarge!.copyWith(
-            fontFamily: fontFamily,
-            fontSize: SplashConstants.subtitleFontSize,
-            fontWeight: FontWeight.w400,
-            color: colors.onSurface.withOpacity(
-              SplashConstants.subtitleOpacity,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _SwipeUpHint extends StatelessWidget {
-  const _SwipeUpHint({required this.pulse});
-
-  final Animation<double> pulse;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return AnimatedBuilder(
-      animation: pulse,
-      builder: (context, child) {
-        return Opacity(opacity: pulse.value, child: child);
-      },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.keyboard_arrow_up_rounded,
-            color: colors.onSurface.withOpacity(SplashConstants.hintOpacity),
-            size: 28,
-          ),
-          Text(
-            'اسحب لأعلى للمتابعة',
-            style: textTheme.bodySmall!.copyWith(
-              fontFamily: fontFamily,
-              fontSize: SplashConstants.hintFontSize,
-              color: colors.onSurface.withOpacity(SplashConstants.hintOpacity),
-            ),
-          ),
-        ],
       ),
     );
   }

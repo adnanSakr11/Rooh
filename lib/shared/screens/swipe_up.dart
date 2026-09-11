@@ -1,15 +1,4 @@
 import 'package:flutter/material.dart';
-
-/// انتقال مخصص بين الشاشات بيكمّل بصرياً حركة السحب لفوق اللي اليوزر
-/// عملها في شاشة الـ Splash، عشان الانتقال يحس إنه امتداد طبيعي لنفس
-/// الحركة مش قطع مفاجئ لـ transition مختلف.
-///
-/// الاستخدام من أي مكان محتاج ينتقل بنفس الإحساس:
-/// ```dart
-/// Navigator.of(context).push(
-///   SwipeUpPageRoute(builder: (_) => const NextScreen()),
-/// );
-/// ```
 class SwipeUpPageRoute<T> extends PageRouteBuilder<T> {
   SwipeUpPageRoute({required WidgetBuilder builder, super.settings})
     : super(

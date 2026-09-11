@@ -71,7 +71,6 @@ class _AppSearchBarState extends State<AppSearchBar> {
           color: colors.onSurface,
           fontFamily: fontFamily,
           fontWeight: FontWeight.w400,
-          fontSize: 18,
         ),
         prefixIcon: widget.prefixIcon,
         prefixIconColor: colors.onSurface,
