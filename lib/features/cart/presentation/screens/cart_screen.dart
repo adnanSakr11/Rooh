@@ -65,10 +65,3 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-

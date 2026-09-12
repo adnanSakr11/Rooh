@@ -210,7 +210,7 @@ class _GoogleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+          return GestureDetector(
       onTap: isLoading ? null : onTap,
       child: Container(
         height: 56,
@@ -236,19 +236,14 @@ class _GoogleButton extends StatelessWidget {
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    googleIcon,
-                    height: 22,
-                    width: 22,
-                  ),
+                  Image.asset(googleIcon, height: 20, width: 20),
                   const SizedBox(width: 12),
                   Text(
                     'المتابعة بحساب جوجل',
                     style: TextStyle(
                       fontFamily: fontFamily,
-                      fontSize: 16,
+                      fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black.withOpacity(0.8),
                     ),
                   ),
                 ],
