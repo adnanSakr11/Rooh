@@ -15,15 +15,7 @@ class CartScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: colors.surface,
-      appBar: AppBar(
-        backgroundColor: colors.surface,
-        elevation: 0,
-        title: Text(
-          'السلة',
-          style: TextStyle(fontFamily: fontFamily, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
+
       body: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
           if (state is CartLoading || state is CartInitial) {
@@ -47,6 +39,18 @@ class CartScreen extends StatelessWidget {
 
           return Column(
             children: [
+              SafeArea(
+                child: Center(
+                  child: Text(
+                    'السلة',
+                    style: TextStyle(
+                      fontFamily: fontFamily,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                  ),
+                ),
+              ),
               Expanded(
                 child: ListView.separated(
                   padding: const EdgeInsets.all(16),

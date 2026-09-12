@@ -26,7 +26,7 @@ class PhoneProductCard extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: colors.surface.withOpacity(0.85),
+            color: colors.surface.withOpacity(0.95),
             border: Border.all(
               color: colors.primary.withOpacity(0.3),
               width: 2,
@@ -46,41 +46,40 @@ class PhoneProductCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 38, right: 12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          productsEntity.name,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontFamily: fontFamily,
-                            color: colors.onSurface,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        productsEntity.name,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontFamily: fontFamily,
+                          color: colors.onSurface,
+                          fontWeight: FontWeight.bold,
                         ),
-                        const SizedBox(height: 10),
-                        Text(
-                          productsEntity.formattedPrice,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: colors.primary,
-                            fontWeight: FontWeight.w600,
-                          ),
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        productsEntity.formattedPrice,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: colors.primary,
+                          fontWeight: FontWeight.w600,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
+                const SizedBox(width: 10),
                 Container(
-                  height: 150,
-                  width: 160,
+                  height: 95,
+                  width: 95,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(18),
                     color: colors.secondary,
                   ),
                   clipBehavior: Clip.hardEdge,

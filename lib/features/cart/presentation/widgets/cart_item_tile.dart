@@ -25,35 +25,24 @@ class CartItemTile extends StatelessWidget {
             offset: Offset(0, 2),
           ),
         ],
-        border: Border.all(color: colors.onSurface.withOpacity(0.1)),
+        border: Border.all(color: colors.primary.withOpacity(0.6)),
       ),
       child: Row(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
-                  blurRadius: 5,
-                  offset: Offset(-4, 2),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Image.network(
-                item.product.imageUrl,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Image.network(
+              item.product.imageUrl,
+              width: 95,
+              height: 95,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => Container(
                 width: 100,
                 height: 100,
-                fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(
-                  width: 100,
-                  height: 100,
-                  color: colors.onSurface.withOpacity(0.05),
-                  child: Icon(
-                    Icons.image_not_supported_outlined,
-                    color: colors.onSurface.withOpacity(0.3),
-                  ),
+                color: colors.onSurface.withOpacity(0.05),
+                child: Icon(
+                  Icons.image_not_supported_outlined,
+                  color: colors.onSurface.withOpacity(0.3),
                 ),
               ),
             ),
@@ -62,6 +51,7 @@ class CartItemTile extends StatelessWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   item.product.name,
@@ -70,7 +60,7 @@ class CartItemTile extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: fontFamily,
                     fontWeight: FontWeight.bold,
-                    fontSize: 22,
+                    fontSize: 18,
                     color: colors.onSurface,
                   ),
                 ),
@@ -80,7 +70,7 @@ class CartItemTile extends StatelessWidget {
                   style: TextStyle(
                     fontFamily: fontFamily,
                     color: colors.primary,
-                    fontSize: 22,
+                    fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

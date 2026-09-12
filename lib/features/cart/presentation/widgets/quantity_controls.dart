@@ -36,7 +36,7 @@ class QuantityControls extends StatelessWidget {
             height: 35,
             width: 35,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(12),
               border: Border.all(color: colors.primary, width: 2),
             ),
             child: Center(

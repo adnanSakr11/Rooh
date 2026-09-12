@@ -18,7 +18,7 @@ class QtyButton extends StatelessWidget {
         decoration: BoxDecoration(
           color: colors.primary.withOpacity(0.9),
           border: Border.all(color: colors.onSurface),
-          borderRadius: BorderRadius.circular(18),
+          shape: BoxShape.circle,
         ),
         child: Icon(icon, size: 16, color: colors.onSurface),
       ),
