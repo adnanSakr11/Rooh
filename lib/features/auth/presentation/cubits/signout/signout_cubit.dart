@@ -1,11 +1,11 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:rooh/features/auth/domain/usecases/sign_out_usecasse.dart';
+import 'package:rooh/features/auth/domain/usecases/sign_out_usecase.dart';
 
 part 'signout_state.dart';
 
 class SignoutCubit extends Cubit<SignoutState> {
-  final SignOutUsecasse _signOutUsecasse;
+  final SignOutUsecase _signOutUsecasse;
   SignoutCubit(this._signOutUsecasse) : super(SignoutInitial());
 
   Future<void> signOut() async {

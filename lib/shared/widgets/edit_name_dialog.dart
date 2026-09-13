@@ -54,7 +54,7 @@ class _EditNameDialogState extends State<_EditNameDialog> {
 
     return BlocListener<UpdateUserNameCubit, UpdateUserNameState>(
       listener: (context, state) {
-        if (state is UpdtaeUserNameSucced) {
+        if (state is UpdtaeUserNameSucceeded) {
           Navigator.of(context).pop();
         } else if (state is UpdateUserNameError) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -74,9 +74,7 @@ class _EditNameDialogState extends State<_EditNameDialog> {
       },
       child: AlertDialog(
         backgroundColor: colors.secondary,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         title: Text(
           'تعديل الاسم',
           textAlign: TextAlign.right,

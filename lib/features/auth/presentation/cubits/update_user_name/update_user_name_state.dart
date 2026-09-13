@@ -11,7 +11,7 @@ final class UpdateUserNameInitial extends UpdateUserNameState {}
 
 final class UpdateUserNameLoading extends UpdateUserNameState {}
 
-final class UpdtaeUserNameSucced extends UpdateUserNameState {}
+final class UpdtaeUserNameSucceeded extends UpdateUserNameState {}
 
 final class UpdateUserNameError extends UpdateUserNameState {
   final String message;

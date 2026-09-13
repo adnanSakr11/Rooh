@@ -7,7 +7,7 @@ import '../../features/auth/data/data_source/fire_store_user_data_soruce.dart';
 import '../../features/auth/data/data_source/firebase_auth_data_source.dart';
 import '../../features/auth/data/repo/auth_repo_impl.dart';
 import '../../features/auth/domain/repo/auth_repo.dart';
-import '../../features/auth/domain/usecases/sign_out_usecasse.dart';
+import '../../features/auth/domain/usecases/sign_out_usecase.dart';
 import '../../features/auth/domain/usecases/signin_with_google.dart';
 import '../../features/auth/domain/usecases/signin_with_phone_and_pass.dart';
 import '../../features/auth/domain/usecases/update_user_name.dart';
@@ -69,7 +69,7 @@ void setupAuthDependencies() {
   getIt.registerLazySingleton(
     () => UpdateUserNameUsecase(authRepo: getIt<AuthRepo>()),
   );
-  getIt.registerLazySingleton(() => SignOutUsecasse(getIt<AuthRepo>()));
+  getIt.registerLazySingleton(() => SignOutUsecase(getIt<AuthRepo>()));
 }
 
 /// ==================== PRODUCTS ====================
