@@ -6,6 +6,7 @@ import 'package:rooh/features/auth/data/data_source/firebase_auth_data_source.da
 import 'package:rooh/features/auth/data/models/user_model.dart';
 import 'package:rooh/features/auth/domain/entity/user_entity.dart';
 import 'package:rooh/features/auth/domain/repo/auth_repo.dart';
+import 'package:rxdart/rxdart.dart';
 
 class AuthRepoImpl extends AuthRepo {
   final FireStoreUserDataSoruce _userDataSoruce;
@@ -40,22 +41,12 @@ class AuthRepoImpl extends AuthRepo {
 
   @override
   Stream<UserEntity?> get authStateChanges {
-    return _authDataSource.authStateChanges.asyncExpand((fbUser) async* {
-      if (fbUser == null) {
-        yield null;
-        return;
-      }
-      await _waitForProfileToExist(fbUser.uid);
-      yield* _userDataSoruce.streamUserProfile(fbUser.uid);
+    return _authDataSource.authStateChanges.switchMap((fbUser) {
+      if (fbUser == null) return Stream.value(null);
+      return _userDataSoruce
+          .streamUserProfile(fbUser.uid)
+          .skipWhile((profile) => profile == null);
     });
-  }
-
-  Future<void> _waitForProfileToExist(String uid) async {
-    for (var i = 0; i < 5; i++) {
-      final profile = await _userDataSoruce.getUserProfile(uid);
-      if (profile != null) return;
-      await Future.delayed(const Duration(milliseconds: 150));
-    }
   }
 
   @override
