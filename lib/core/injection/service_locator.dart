@@ -33,7 +33,6 @@ final getIt = GetIt.instance;
 
 /// ==================== AUTH ====================
 void setupAuthDependencies() {
-  // Infra singletons — نسخة واحدة بس من GoogleSignIn في التطبيق كله.
   getIt.registerLazySingleton<FirebaseAuth>(() => FirebaseAuth.instance);
   getIt.registerLazySingleton<FirebaseFirestore>(
     () => FirebaseFirestore.instance,
