@@ -15,7 +15,6 @@ import '../../features/auth/domain/usecases/signin_with_phone_and_pass.dart';
 import '../../features/auth/domain/usecases/update_user_name.dart';
 import '../../features/auth/domain/usecases/watch_auth_state_usecase.dart';
 
-import '../../features/products/data/data_source/data_source.dart';
 import '../../features/products/data/repo/products_repo_impl.dart';
 import '../../features/products/domain/repo/products_repo.dart';
 import '../../features/products/domain/usecases/search_app_products.dart';
@@ -74,7 +73,6 @@ void setupAuthDependencies() {
 
 /// ==================== PRODUCTS ====================
 void setupProductsDependencies() {
-  getIt.registerLazySingleton<PexelsDataSource>(() => const PexelsDataSource());
 
   getIt.registerLazySingleton<ProductsDataSource>(
     () => ProductsDataSource(getIt<FirebaseFirestore>()),
