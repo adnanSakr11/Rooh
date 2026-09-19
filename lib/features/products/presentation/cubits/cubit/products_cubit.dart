@@ -2,20 +2,20 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:rooh/features/products/domain/entity/products_entity.dart';
-import 'package:rooh/features/products/domain/usecases/fetch_images_on_pexels_usecase.dart';
+import 'package:rooh/features/products/domain/usecases/get_products_usecase.dart';
 import 'package:rooh/features/products/domain/usecases/search_app_products.dart';
 
 part 'products_state.dart';
 
 class ProductsCubit extends Cubit<ProductsStates> {
-  ProductsCubit(this._fetchProducts, this._searchProducts)
+  ProductsCubit(this._getProducts, this._searchProducts)
     : super(ProductsInitial());
-  final FetchImagesOnPexelsUsecase _fetchProducts;
+  final GetProductsUsecase _getProducts;
   final SearchAppProductsUsecase _searchProducts;
 
   Future<void> loadingProducts() async {
     emit(ProductsLoading());
-    final result = await _fetchProducts();
+    final result = await _getProducts();
     if (isClosed) return;
     result.fold(
       (f) => emit(ProductsError(message: f.message)),

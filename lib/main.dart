@@ -9,7 +9,7 @@ import 'package:rooh/features/cart/domain/usecases/remove_item_from_cart.dart';
 import 'package:rooh/features/cart/domain/usecases/update_cart_quantity_usecase.dart';
 import 'package:rooh/features/cart/domain/usecases/watch_cart_usecase.dart';
 import 'package:rooh/features/cart/presentation/cubits/cart/cart_cubit.dart';
-import 'package:rooh/features/products/domain/usecases/fetch_images_on_pexels_usecase.dart';
+import 'package:rooh/features/products/domain/usecases/get_products_usecase.dart';
 import 'package:rooh/shared/screens/splash_screen.dart';
 import 'package:rooh/shared/screens/intro_screen.dart';
 import 'package:rooh/shared/screens/swipe_up.dart';
@@ -47,7 +47,7 @@ class Rooh extends StatelessWidget {
               getIt<RemoveItemFromCartUsecase>(),
               getIt<UpdateCartQuantityUsecase>(),
               getIt<ClearCartUsecase>(),
-              getIt<FetchImagesOnPexelsUsecase>(),
+              getIt<GetProductsUsecase>(),
               context.read<AuthCubit>(),
             ),
             child: MaterialApp(

@@ -11,7 +11,7 @@ import 'package:rooh/features/cart/domain/usecases/remove_item_from_cart.dart';
 import 'package:rooh/features/cart/domain/usecases/update_cart_quantity_usecase.dart';
 import 'package:rooh/features/cart/domain/usecases/watch_cart_usecase.dart';
 import 'package:rooh/features/products/domain/entity/products_entity.dart';
-import 'package:rooh/features/products/domain/usecases/fetch_images_on_pexels_usecase.dart';
+import 'package:rooh/features/products/domain/usecases/get_products_usecase.dart';
 import '../../models/cart_item_view.dart';
 part 'cart_state.dart';
 
@@ -21,7 +21,7 @@ class CartCubit extends Cubit<CartState> {
   final RemoveItemFromCartUsecase _removeItem;
   final UpdateCartQuantityUsecase _updateQuantity;
   final ClearCartUsecase _clearCart;
-  final FetchImagesOnPexelsUsecase _fetchProducts;
+  final GetProductsUsecase _getProducts;
   final AuthCubit _authCubit;
 
   StreamSubscription<List<CartItemEntity>>? _cartSubscription;
@@ -34,7 +34,7 @@ class CartCubit extends Cubit<CartState> {
     this._removeItem,
     this._updateQuantity,
     this._clearCart,
-    this._fetchProducts,
+    this._getProducts,
     this._authCubit,
   ) : super(CartInitial()) {
     _loadProductsThenWatchCart();
@@ -46,7 +46,7 @@ class CartCubit extends Cubit<CartState> {
 
   Future<void> _loadProductsThenWatchCart() async {
     emit(CartLoading());
-    final result = await _fetchProducts();
+    final result = await _getProducts();
     if (isClosed) return;
     result.fold((f) => emit(CartError(message: f.message)), (products) {
       _products = products;

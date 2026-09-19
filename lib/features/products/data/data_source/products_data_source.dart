@@ -10,7 +10,7 @@ class ProductsDataSource {
   Future<ProductsModel?> getProductsData(String id) async {
     final doc = await _productsRef.doc(id).get();
     if (!doc.exists) return null;
-    return ProductsModel.fromMap(doc.data()!);
+    return ProductsModel.fromMap(doc.data()!,doc.id);
   }
 
   Future<void> createProduct(ProductsModel product) async {
@@ -20,7 +20,7 @@ class ProductsDataSource {
   Future<List<ProductsModel>> getAllProducts() async {
     final snapshot = await _productsRef.get();
     return snapshot.docs
-        .map((doc) => ProductsModel.fromMap(doc.data()))
+        .map((doc) => ProductsModel.fromMap(doc.data(),doc.id),)
         .toList();
   }
 }

@@ -9,9 +9,9 @@ class ProductsModel extends ProductsEntity {
     required super.imgUrl,
   });
 
-  factory ProductsModel.fromMap(Map<String, dynamic> map) {
+  factory ProductsModel.fromMap(Map<String, dynamic> map,String id) {
     return ProductsModel(
-      id: map['id'],
+      id: id,
       name: map['name'] as String,
       desc: map['desc'] as String,
       price: (map['price'] as num).toDouble(),

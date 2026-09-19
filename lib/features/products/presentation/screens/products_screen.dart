@@ -4,7 +4,7 @@ import 'package:rooh/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:rooh/features/auth/domain/usecases/update_user_name.dart';
 import 'package:rooh/features/auth/presentation/cubits/signout/signout_cubit.dart';
 import 'package:rooh/features/auth/presentation/cubits/update_user_name/update_user_name_cubit.dart';
-import 'package:rooh/features/products/domain/usecases/fetch_images_on_pexels_usecase.dart';
+import 'package:rooh/features/products/domain/usecases/get_products_usecase.dart';
 import 'package:rooh/features/products/domain/usecases/search_app_products.dart';
 import 'package:rooh/features/products/presentation/cubits/cubit/products_cubit.dart';
 import '../../../../core/injection/service_locator.dart';
@@ -19,7 +19,7 @@ class ProductsScreen extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (_) => ProductsCubit(
-            getIt<FetchImagesOnPexelsUsecase>(),
+            getIt<GetProductsUsecase>(),
             getIt<SearchAppProductsUsecase>(),
           )..loadingProducts(),
         ),
