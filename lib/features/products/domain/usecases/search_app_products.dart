@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:rooh/core/errors/failure.dart';
-
 import '../entity/products_entity.dart';
 
 class SearchAppProductsUsecase {

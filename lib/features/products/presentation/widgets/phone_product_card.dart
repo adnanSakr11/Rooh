@@ -83,10 +83,7 @@ class PhoneProductCard extends StatelessWidget {
                     color: colors.secondary,
                   ),
                   clipBehavior: Clip.hardEdge,
-                  child: Image.network(
-                    productsEntity.imageUrl,
-                    fit: BoxFit.fill,
-                  ),
+                  child: Image.network(productsEntity.imgUrl, fit: BoxFit.fill),
                 ),
               ],
             ),

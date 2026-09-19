@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:rooh/features/products/data/data_source/products_data_source.dart';
 
 import '../../features/auth/data/data_source/fire_store_user_data_soruce.dart';
 import '../../features/auth/data/data_source/firebase_auth_data_source.dart';
@@ -14,7 +15,7 @@ import '../../features/auth/domain/usecases/update_user_name.dart';
 import '../../features/auth/domain/usecases/watch_auth_state_usecase.dart';
 
 import '../../features/products/data/data_source/data_source.dart';
-import '../../features/products/data/repo/products_repo.dart';
+import '../../features/products/data/repo/products_repo_impl.dart';
 import '../../features/products/domain/repo/products_repo.dart';
 import '../../features/products/domain/usecases/fetch_images_on_pexels_usecase.dart';
 import '../../features/products/domain/usecases/search_app_products.dart';
@@ -75,7 +76,13 @@ void setupAuthDependencies() {
 void setupProductsDependencies() {
   getIt.registerLazySingleton<PexelsDataSource>(() => const PexelsDataSource());
 
-  getIt.registerLazySingleton<ProductsRepo>(() => ProductRepositoryImpl());
+  getIt.registerLazySingleton<ProductsDataSource>(
+    () => ProductsDataSource(getIt<FirebaseFirestore>()),
+  );
+
+  getIt.registerLazySingleton<ProductsRepo>(
+    () => ProductRepositoryImpl(getIt<ProductsDataSource>()),
+  );
 
   getIt.registerLazySingleton(
     () => FetchImagesOnPexelsUsecase(getIt<ProductsRepo>()),

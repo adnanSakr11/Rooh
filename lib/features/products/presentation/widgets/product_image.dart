@@ -18,7 +18,7 @@ class ProductImage extends StatelessWidget {
         ),
         clipBehavior: Clip.antiAlias,
         child: Image.network(
-          product.imageUrl,
+          product.imgUrl,
           fit: BoxFit.cover,
           errorBuilder: (context, error, stackTrace) => Container(
             color: colors.onSurface.withOpacity(0.05),

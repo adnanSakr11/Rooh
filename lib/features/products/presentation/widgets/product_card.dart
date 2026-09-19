@@ -33,7 +33,7 @@ class ProductCard extends StatelessWidget {
           children: [
             Expanded(
               child: Image.network(
-                productsEntity.imageUrl,
+                productsEntity.imgUrl,
                 width: double.infinity,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) => Container(

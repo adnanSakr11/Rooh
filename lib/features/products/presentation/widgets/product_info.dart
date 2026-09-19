@@ -49,7 +49,6 @@ class ProductInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -78,7 +77,7 @@ class ProductInfo extends StatelessWidget {
         Divider(color: colors.onSurface.withOpacity(0.1)),
         const SizedBox(height: 20),
         Text(
-          product.description,
+          product.desc,
           textAlign: TextAlign.right,
           style: TextStyle(
             fontFamily: fontFamily,
@@ -135,4 +134,3 @@ class ProductInfo extends StatelessWidget {
     );
   }
 }
-
