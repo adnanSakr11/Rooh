@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rooh/features/products/domain/entity/products_entity.dart';
+import 'package:rooh/shared/widgets/app_network_image.dart';
 
 class ProductImage extends StatelessWidget {
   const ProductImage({super.key, required this.product, required this.colors});
@@ -17,18 +18,7 @@ class ProductImage extends StatelessWidget {
           border: Border.all(color: colors.primary.withOpacity(0.3)),
         ),
         clipBehavior: Clip.antiAlias,
-        child: Image.network(
-          product.imgUrl,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) => Container(
-            color: colors.onSurface.withOpacity(0.05),
-            child: Icon(
-              Icons.image_not_supported_outlined,
-              size: 60,
-              color: colors.onSurface.withOpacity(0.3),
-            ),
-          ),
-        ),
+        child: AppNetworkImage(url: product.imgUrl, fit: BoxFit.cover),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rooh/shared/widgets/app_network_image.dart';
 import '../../domain/entity/products_entity.dart';
 import '../extensions/products_extensions.dart';
 import '../screens/product_details_screen.dart';
@@ -32,17 +33,10 @@ class ProductCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
-              child: Image.network(
-                productsEntity.imgUrl,
+              child: AppNetworkImage(
+                url: productsEntity.imgUrl,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => Container(
-                  color: colors.onSurface.withOpacity(0.05),
-                  child: Icon(
-                    Icons.image_not_supported_outlined,
-                    color: colors.onSurface.withOpacity(0.3),
-                  ),
-                ),
               ),
             ),
             Padding(

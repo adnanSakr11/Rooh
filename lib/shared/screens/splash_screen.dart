@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:rooh/core/injection/service_locator.dart';
 import '../../core/const/splash_const.dart';
+import '../../features/products/domain/usecases/get_products_usecase.dart';
 import '../widgets/splash_header_widgets/splash_header.dart';
 import '../widgets/splash_header_widgets/swipe_up_hint.dart';
 
@@ -93,6 +96,30 @@ class _SplashScreenState extends State<SplashScreen>
       if (!mounted) return;
       setState(() => _isHintVisible = true);
       _hintController.repeat(reverse: true);
+    });
+  }
+
+  bool _warmedUp = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_warmedUp) return;
+    _warmedUp = true;
+    _warmUpImages();
+  }
+
+  Future<void> _warmUpImages() async {
+    final result = await getIt<GetProductsUsecase>()();
+    if (!mounted) return;
+    result.fold((_) {}, (products) {
+      for (final p in products) {
+        precacheImage(
+          CachedNetworkImageProvider(p.imgUrl),
+          context,
+          onError: (_, __) {},
+        );
+      }
     });
   }
 

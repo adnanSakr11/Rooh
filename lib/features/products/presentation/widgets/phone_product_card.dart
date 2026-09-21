@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rooh/core/const/app_const.dart';
 import 'package:rooh/features/products/domain/entity/products_entity.dart';
+import 'package:rooh/shared/widgets/app_network_image.dart';
 
 import '../extensions/products_extensions.dart';
 import '../screens/product_details_screen.dart';
@@ -83,7 +84,10 @@ class PhoneProductCard extends StatelessWidget {
                     color: colors.secondary,
                   ),
                   clipBehavior: Clip.hardEdge,
-                  child: Image.network(productsEntity.imgUrl, fit: BoxFit.fill),
+                  child: AppNetworkImage(
+                    url: productsEntity.imgUrl,
+                    fit: BoxFit.fill,
+                  ),
                 ),
               ],
             ),

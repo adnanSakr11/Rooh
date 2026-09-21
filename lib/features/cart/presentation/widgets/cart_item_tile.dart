@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rooh/shared/widgets/app_network_image.dart';
 import '../../../../core/const/app_const.dart';
 import '../../../products/presentation/extensions/products_extensions.dart';
 import '../models/cart_item_view.dart';
@@ -31,20 +32,11 @@ class CartItemTile extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(12),
-            child: Image.network(
-              item.product.imgUrl,
+            child: AppNetworkImage(
+              url: item.product.imgUrl,
               width: 95,
               height: 95,
               fit: BoxFit.cover,
-              errorBuilder: (_, __, ___) => Container(
-                width: 100,
-                height: 100,
-                color: colors.onSurface.withOpacity(0.05),
-                child: Icon(
-                  Icons.image_not_supported_outlined,
-                  color: colors.onSurface.withOpacity(0.3),
-                ),
-              ),
             ),
           ),
 
