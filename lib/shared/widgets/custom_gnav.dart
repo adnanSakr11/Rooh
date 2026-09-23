@@ -3,14 +3,11 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 
 class CustomNavButton extends StatelessWidget {
   void Function(int)? onTabChange;
-  final int unreadMessagesCount;
-  final int friendRequestsCount;
+
 
   CustomNavButton({
     super.key,
     required this.onTabChange,
-    this.unreadMessagesCount = 0,
-    this.friendRequestsCount = 0,
   });
 
   @override
@@ -44,12 +41,13 @@ class CustomNavButton extends StatelessWidget {
             iconColor: colors.onSurface,
           ),
 
-          // GButton(
-          //   icon: Icons.notifications_outlined,
-          //   text: 'طلباتك',
-          //   textColor: colors.onSurface,
-          //   iconActiveColor: colors.onSurface,
-          //   iconColor: colors.onSurface,
+          GButton(
+            icon: Icons.notifications_outlined,
+            text: 'طلباتك',
+            textColor: colors.onSurface,
+            iconActiveColor: colors.onSurface,
+            iconColor: colors.onSurface,
+            )
 
           // GButton(
           //   icon: Icons.settings,
