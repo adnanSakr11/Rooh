@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rooh/core/utils/money.dart';
 import '../../../../core/const/app_const.dart';
 
 class CartFooter extends StatelessWidget {
@@ -42,7 +43,7 @@ class CartFooter extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      'جنيه ${totalPrice.toStringAsFixed(0)}',
+                      'جنيه ${totalPrice.asEgp}',
                       style: TextStyle(
                         fontFamily: fontFamily,
                         fontSize: 20,

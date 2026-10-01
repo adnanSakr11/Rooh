@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rooh/features/auth/presentation/cubits/authcubit/auth_cubit.dart';
 import 'package:rooh/features/cart/presentation/screens/cart_screen.dart';
-import 'package:rooh/features/oredrs/presentation/screens/orders_screen.dart';
+import 'package:rooh/features/orders/presentation/screens/orders_screen.dart';
 import 'package:rooh/features/products/presentation/screens/products_screen.dart';
 import 'package:rooh/shared/widgets/show_login_required_sheet.dart';
 
