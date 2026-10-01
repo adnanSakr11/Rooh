@@ -8,11 +8,22 @@ class ProductRepositoryImpl extends ProductsRepo {
   final ProductsDataSource _productsData;
   ProductRepositoryImpl(this._productsData);
 
+  List<ProductsModel>? _cache;
+  Future<Either<Failure, List<ProductsModel>>>? _inFlight;
+
   @override
-  Future<Either<Failure, List<ProductsModel>>> getProducts() async {
+  Future<Either<Failure, List<ProductsModel>>> getProducts({
+    bool forceRefresh = false,
+  }) {
+    final cached = _cache;
+    if (!forceRefresh && cached != null) return Future.value(Right(cached));
+    return _inFlight ??= _fetch().whenComplete(() => _inFlight = null);
+  }
+
+  Future<Either<Failure, List<ProductsModel>>> _fetch() async {
     try {
       final result = await _productsData.getAllProducts();
-
+      _cache = result;
       return Right(result);
     } catch (e, st) {
       return Left(

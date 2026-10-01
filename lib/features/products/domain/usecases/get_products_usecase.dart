@@ -5,6 +5,7 @@ import 'package:rooh/features/products/domain/repo/products_repo.dart';
 
 class GetProductsUsecase {
   final ProductsRepo _productsRepo;
+  final bool forceRefresh = false;
   const GetProductsUsecase(this._productsRepo);
 
   Future<Either<Failure, List<ProductsEntity>>> call() =>

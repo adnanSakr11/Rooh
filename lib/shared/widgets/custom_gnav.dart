@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class CustomNavButton extends StatelessWidget {
-  void Function(int)? onTabChange;
-
-
-  CustomNavButton({
+  const CustomNavButton({
     super.key,
+    required this.selectedIndex,
     required this.onTabChange,
   });
+
+  final int selectedIndex;
+  final ValueChanged<int> onTabChange;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+
     return Container(
-      padding: EdgeInsets.only(bottom: 20, top: 5, left: 8),
+      padding: const EdgeInsets.only(bottom: 20, top: 5, left: 8),
       child: GNav(
-        padding: EdgeInsetsGeometry.all(20),
+        selectedIndex: selectedIndex,
+        padding: const EdgeInsets.all(20),
         gap: 2,
-        onTabChange: (value) => onTabChange!(value),
+        onTabChange: onTabChange,
         mainAxisAlignment: MainAxisAlignment.center,
         color: colors.onSurface,
         activeColor: colors.onPrimary,
@@ -32,7 +35,6 @@ class CustomNavButton extends StatelessWidget {
             iconActiveColor: colors.primary,
             iconColor: colors.onSurface,
           ),
-
           GButton(
             icon: Icons.shopping_cart_outlined,
             text: 'العربة',
@@ -40,22 +42,13 @@ class CustomNavButton extends StatelessWidget {
             iconActiveColor: colors.primary,
             iconColor: colors.onSurface,
           ),
-
           GButton(
             icon: Icons.notifications_outlined,
             text: 'طلباتك',
             textColor: colors.onSurface,
             iconActiveColor: colors.onSurface,
             iconColor: colors.onSurface,
-            )
-
-          // GButton(
-          //   icon: Icons.settings,
-          //   text: 'المجتمع',
-          //   textColor: colors.onSurface,
-          //   iconActiveColor: colors.onSurface,
-          //   iconColor: colors.onSurface,
-          // ),
+          ),
         ],
       ),
     );

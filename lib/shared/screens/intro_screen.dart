@@ -8,6 +8,8 @@ import 'package:rooh/shared/widgets/show_login_required_sheet.dart';
 
 import '../widgets/custom_gnav.dart';
 
+enum IntroTab { products, cart, orders }
+
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
 
@@ -16,39 +18,45 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  int _selectedIndex = 0;
-
-  void navigateBottomBar(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-
-    if (index == 2) {
-      final state = context.read<AuthCubit>().state;
-      if (state is! Authenticated) {
-        showLoginRequiredSheet(context);
-      }
-    }
-  }
-
-  List<Widget> get pages => [
-    const ProductsScreen(),
-    const CartScreen(),
-    const OrdersScreen(),
+  late final List<Widget> _pages = const [
+    ProductsScreen(),
+    CartScreen(),
+    OrdersScreen(),
   ];
+
+  int _selectedIndex = IntroTab.products.index;
+
+
+  int _navResetCount = 0;
+
+  void _onTabChange(int index) {
+    final isOrders = index == IntroTab.orders.index;
+    final isGuest = context.read<AuthCubit>().state is Unauthenticated;
+
+    if (isOrders && isGuest) {
+      showLoginRequiredSheet(context);
+      setState(() => _navResetCount++);
+      return;
+    }
+
+    setState(() => _selectedIndex = index);
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+
     return Scaffold(
       backgroundColor: colors.surface,
       bottomNavigationBar: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: CustomNavButton(
-          onTabChange: (index) => navigateBottomBar(index),
+          key: ValueKey(_navResetCount),
+          selectedIndex: _selectedIndex,
+          onTabChange: _onTabChange,
         ),
       ),
-      body: pages[_selectedIndex],
+      body: IndexedStack(index: _selectedIndex, children: _pages),
     );
   }
 }
