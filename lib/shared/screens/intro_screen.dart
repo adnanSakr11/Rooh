@@ -18,6 +18,7 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
+
   late final List<Widget> _pages = const [
     ProductsScreen(),
     CartScreen(),
@@ -25,7 +26,6 @@ class _IntroScreenState extends State<IntroScreen> {
   ];
 
   int _selectedIndex = IntroTab.products.index;
-
 
   int _navResetCount = 0;
 
