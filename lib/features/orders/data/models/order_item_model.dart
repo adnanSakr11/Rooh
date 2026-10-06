@@ -9,33 +9,13 @@ class OrderItemModel extends OrderItemEntity {
     required super.quantity,
   });
 
-  factory OrderItemModel.fromEntity(OrderItemEntity entity) {
+  factory OrderItemModel.fromMap(Map<String, dynamic> map) {
     return OrderItemModel(
-      productId: entity.productId,
-      name: entity.name,
-      unitPrice: entity.unitPrice,
-      imgUrl: entity.imgUrl,
-      quantity: entity.quantity,
-    );
-  }
-
-  factory OrderItemModel.fromMap(Map<String, dynamic> map, String productId) {
-    return OrderItemModel(
-      productId: productId,
+      productId: map['productId'],
       name: map['name'] as String,
       unitPrice: (map['unitPrice'] as num).toDouble(),
       imgUrl: map['imgUrl'] as String,
       quantity: map['quantity'] as int,
     );
-  }
-
-  Map<String, dynamic> toMap() {
-    return {
-      'productId': productId,
-      'name': name,
-      'unitPrice': unitPrice,
-      'imgUrl': imgUrl,
-      'quantity': quantity,
-    };
   }
 }
