@@ -15,6 +15,12 @@ import '../../features/auth/domain/usecases/signin_with_phone_and_pass.dart';
 import '../../features/auth/domain/usecases/update_user_name.dart';
 import '../../features/auth/domain/usecases/watch_auth_state_usecase.dart';
 
+import '../../features/orders/data/data_source/orders_data_source.dart';
+import '../../features/orders/data/repo/orders_repo_impl.dart';
+import '../../features/orders/domain/repo/orders_repo.dart';
+import '../../features/orders/domain/usecases/create_orders_usecase.dart';
+import '../../features/orders/domain/usecases/generate_order_id_usecase.dart';
+import '../../features/orders/domain/usecases/get_orders_usecase.dart';
 import '../../features/products/data/repo/products_repo_impl.dart';
 import '../../features/products/domain/repo/products_repo.dart';
 import '../../features/products/domain/usecases/search_app_products.dart';
@@ -113,4 +119,24 @@ void setupCartDependencies() {
     () => UpdateCartQuantityUsecase(getIt<CartRepo>()),
   );
   getIt.registerLazySingleton(() => ClearCartUsecase(getIt<CartRepo>()));
+}
+
+/// ==================== ORDERS ====================
+void setupOrdersDependencies() {
+  getIt.registerLazySingleton<OrdersDataSource>(
+    () => OrdersDataSource(getIt<FirebaseFirestore>()),
+  );
+
+  getIt.registerLazySingleton<OrdersRepo>(
+    () => OrdersRepoImpl(
+      getIt<OrdersDataSource>(),
+      getIt<FirebaseAuthDataSource>(),
+    ),
+  );
+
+  getIt.registerLazySingleton(() => CreateOrderUsecase(getIt<OrdersRepo>()));
+  getIt.registerLazySingleton(() => GetOrdersUsecase(getIt<OrdersRepo>()));
+  getIt.registerLazySingleton(
+    () => GenerateOrderIdUsecase(getIt<OrdersRepo>()),
+  );
 }
