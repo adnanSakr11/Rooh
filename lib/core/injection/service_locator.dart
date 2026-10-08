@@ -79,7 +79,6 @@ void setupAuthDependencies() {
 
 /// ==================== PRODUCTS ====================
 void setupProductsDependencies() {
-
   getIt.registerLazySingleton<ProductsDataSource>(
     () => ProductsDataSource(getIt<FirebaseFirestore>()),
   );
