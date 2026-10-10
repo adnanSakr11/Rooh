@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rooh/core/const/app_const.dart';
+import 'package:rooh/features/orders/presentation/screens/checkout_screen.dart';
 import '../cubits/cart/cart_cubit.dart';
 import '../widgets/cart_fotter.dart';
 import '../widgets/cart_item_tile.dart';
@@ -61,7 +62,17 @@ class CartScreen extends StatelessWidget {
                   },
                 ),
               ),
-              CartFooter(totalPrice: loaded.totalPrice),
+              CartFooter(
+                totalPrice: loaded.totalPrice,
+                onCheckout: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => CheckoutScreen(
+                      items: loaded.items.map((i) => i.toOrderItem()).toList(),
+                    ),
+                  ),
+                ),
+              ),
             ],
           );
         },

@@ -4,6 +4,7 @@ import 'package:rooh/core/const/app_const.dart';
 import 'package:rooh/features/products/presentation/widgets/trust_row.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../cart/presentation/cubits/cart/cart_cubit.dart';
+import '../../../orders/presentation/screens/checkout_screen.dart';
 import '../../domain/entity/products_entity.dart';
 import '../extensions/products_extensions.dart';
 
@@ -36,6 +37,8 @@ class ProductInfo extends StatelessWidget {
       ),
       (_) => ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
+          duration: Duration(milliseconds: 500),
+          dismissDirection: DismissDirection.down,
           content: Text(
             'تمت الإضافة للسلة',
             style: TextStyle(fontFamily: fontFamily),
@@ -127,6 +130,11 @@ class ProductInfo extends StatelessWidget {
           text: 'اشتري الأن',
           backgroundColor: colors.primary,
           textColor: colors.surface,
+          onTap: () {
+            Navigator.push(context,MaterialPageRoute( builder: (_) => CheckoutScreen(
+                    item:  product,
+                    ),));
+          },
         ),
         const SizedBox(height: 24),
         TrustRow(colors: colors),

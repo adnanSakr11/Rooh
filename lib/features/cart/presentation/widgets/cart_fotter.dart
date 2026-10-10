@@ -3,9 +3,14 @@ import 'package:rooh/core/utils/money.dart';
 import '../../../../core/const/app_const.dart';
 
 class CartFooter extends StatelessWidget {
-  const CartFooter({super.key, required this.totalPrice});
+  const CartFooter({
+    super.key,
+    required this.totalPrice,
+    required this.onCheckout,
+  });
 
   final double totalPrice;
+  final VoidCallback onCheckout;
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +19,7 @@ class CartFooter extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 20),
       child: GestureDetector(
+        onTap: onCheckout,
         child: Container(
           padding: EdgeInsets.all(20),
           width: double.infinity,
@@ -43,7 +49,7 @@ class CartFooter extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      'جنيه ${totalPrice.asEgp}',
+                      totalPrice.asEgp,
                       style: TextStyle(
                         fontFamily: fontFamily,
                         fontSize: 20,

@@ -19,6 +19,7 @@ import 'core/injection/service_locator.dart';
 import 'features/auth/domain/usecases/watch_auth_state_usecase.dart';
 import 'features/auth/presentation/cubits/authcubit/auth_cubit.dart';
 import 'firebase_options.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,7 @@ Future<void> main() async {
   setupProductsDependencies();
   setupCartDependencies();
   setupOrdersDependencies();
+  await initializeDateFormatting('ar');
 
   runApp(const Rooh());
 }

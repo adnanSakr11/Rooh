@@ -41,7 +41,16 @@ class AppButton extends StatelessWidget {
           border: Border.all(color: colors.onSurface, width: 1),
         ),
         child: isLoading
-            ? CircularProgressIndicator()
+            ? Center(
+                child: SizedBox(
+                  height: 24,
+                  width: 24,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.4,
+                    color: textColor ?? colors.onSurface,
+                  ),
+                ),
+              )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -56,7 +65,6 @@ class AppButton extends StatelessWidget {
                       fontFamily: fontFamily,
                     ),
                   ),
-                  //if (icon != null) ...[const SizedBox(width: 12), icon!],
                 ],
               ),
       ),
