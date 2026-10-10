@@ -12,7 +12,9 @@ analyzer:
     depend_on_referenced_packages: ignore
     deprecated_member_use: ignore
     must_be_immutable: ignore
+    prefer_initializing_formals: ignore
     unnecessary_underscores: ignore
+    unused_field: ignore
 include: package:flutter_lints/flutter.yaml
 
 linter:

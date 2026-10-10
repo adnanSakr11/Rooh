@@ -4,6 +4,7 @@ import 'package:rooh/core/const/app_const.dart';
 import 'package:rooh/features/products/presentation/widgets/trust_row.dart';
 import '../../../../shared/widgets/app_button.dart';
 import '../../../cart/presentation/cubits/cart/cart_cubit.dart';
+import '../../../orders/domain/entity/order_item_entity.dart';
 import '../../../orders/presentation/screens/checkout_screen.dart';
 import '../../domain/entity/products_entity.dart';
 import '../extensions/products_extensions.dart';
@@ -131,10 +132,24 @@ class ProductInfo extends StatelessWidget {
           backgroundColor: colors.primary,
           textColor: colors.surface,
           onTap: () {
-            Navigator.push(context,MaterialPageRoute( builder: (_) => CheckoutScreen(
-                    item:  product,
-                    ),));
-          },
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => CheckoutScreen(
+        items: [
+          OrderItemEntity(
+            productId: product.id,
+            name: product.name,
+            unitPrice: product.price,
+            imgUrl: product.imgUrl,
+            quantity: 1,
+          ),
+        ],
+        clearCartOnSuccess: false,
+      ),
+    ),
+  );
+},
         ),
         const SizedBox(height: 24),
         TrustRow(colors: colors),

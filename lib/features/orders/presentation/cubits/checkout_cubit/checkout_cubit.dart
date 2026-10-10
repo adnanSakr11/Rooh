@@ -7,7 +7,6 @@ import 'package:rooh/features/orders/domain/entity/place_order_params.dart';
 import 'package:rooh/features/orders/domain/entity/shipping_info_entity.dart';
 import 'package:rooh/features/orders/domain/usecases/generate_order_id_usecase.dart';
 import '../../../domain/usecases/create_orders_usecase.dart';
-
 part 'checkout_state.dart';
 
 class CheckoutCubit extends Cubit<CheckoutState> {
@@ -15,14 +14,17 @@ class CheckoutCubit extends Cubit<CheckoutState> {
   final ClearCartUsecase _clearCart;
   final List<OrderItemEntity> _items;
   final String _orderId;
+  final bool _clearCartOnSuccess;
 
   CheckoutCubit(
     this._createOrder,
     this._clearCart,
     GenerateOrderIdUsecase generateOrderId,
-    this._items,
-  ) : _orderId = generateOrderId(),
-      super(CheckoutInitial());
+    this._items, {
+    bool clearCartOnSuccess = true,
+  }) : _clearCartOnSuccess = clearCartOnSuccess,
+       _orderId = generateOrderId(),
+       super(CheckoutInitial());
 
   Future<void> submit(ShippingInfoEntity shippingInfo) async {
     if (state is CheckoutSubmitting || state is CheckoutSuccess) return;
@@ -42,7 +44,7 @@ class CheckoutCubit extends Cubit<CheckoutState> {
       return;
     }
 
-    await _clearCart();
+    if (_clearCartOnSuccess) await _clearCart();
     if (!isClosed) emit(CheckoutSuccess(orderId: _orderId));
   }
 }

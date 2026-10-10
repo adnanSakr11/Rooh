@@ -6,7 +6,6 @@ import 'package:rooh/features/auth/presentation/cubits/authcubit/auth_cubit.dart
 import 'package:rooh/features/cart/domain/usecases/clear_cart_usecase.dart';
 import 'package:rooh/features/orders/domain/entity/order_item_entity.dart';
 import 'package:rooh/features/orders/domain/usecases/generate_order_id_usecase.dart';
-import 'package:rooh/features/products/domain/entity/products_entity.dart';
 import '../../domain/usecases/create_orders_usecase.dart';
 import '../cubits/checkout_cubit/checkout_cubit.dart';
 import '../cubits/get_orders_history_cubit/get_orders_history_cubit.dart';
@@ -15,10 +14,14 @@ import '../widgets/order_summary_card.dart';
 import '../widgets/shipping_form.dart';
 
 class CheckoutScreen extends StatelessWidget {
-  const CheckoutScreen({super.key, this.items, this.item});
+  const CheckoutScreen({
+    super.key,
+    required this.items,
+    this.clearCartOnSuccess = true,
+  });
 
-  final List<OrderItemEntity>? items;
-  final ProductsEntity? item;
+  final List<OrderItemEntity> items;
+  final bool clearCartOnSuccess;
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +30,10 @@ class CheckoutScreen extends StatelessWidget {
         getIt<CreateOrderUsecase>(),
         getIt<ClearCartUsecase>(),
         getIt<GenerateOrderIdUsecase>(),
-        items??[],
+        items,
+        clearCartOnSuccess: clearCartOnSuccess,
       ),
-      child: _CheckoutView(items: items??[]),
+      child: _CheckoutView(items: items),
     );
   }
 }

@@ -3,20 +3,18 @@ import 'package:rooh/core/const/app_const.dart';
 import 'package:rooh/core/utils/money.dart';
 import 'package:rooh/features/orders/domain/entity/order_item_entity.dart';
 import 'package:rooh/features/orders/domain/entity/place_order_params.dart';
-import 'package:rooh/features/products/domain/entity/products_entity.dart';
 import 'package:rooh/shared/widgets/app_network_image.dart';
 
 class OrderSummaryCard extends StatelessWidget {
-  const OrderSummaryCard({super.key, this.items, this.item});
+  const OrderSummaryCard({super.key,required this.items, });
 
-  final List<OrderItemEntity>? items;
-  final ProductsEntity? item;
+  final List<OrderItemEntity> items;
 
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final subtotal = roundMoney(
-      items!.fold<double>(0, (sum, i) => sum + i.subtotal),
+      items.fold<double>(0, (sum, i) => sum + i.subtotal),
     );
     const deliveryFee = PlaceOrderParams.flatDeliveryFee;
     final total = roundMoney(subtotal + deliveryFee);
@@ -42,7 +40,7 @@ class OrderSummaryCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          for (final item in items ?? []) _ItemRow(item: item),
+          for (final item in items) _ItemRow(item: item),
           Divider(color: colors.onSurface.withValues(alpha: 0.1)),
           _AmountRow(label: 'المجموع', value: subtotal.asEgp),
           _AmountRow(
