@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:rooh/features/orders/domain/entity/place_order_params.dart';
 
 import '../models/order_model.dart';
@@ -8,15 +8,15 @@ class OrdersDataSource {
   final FirebaseFirestore _firestore;
   const OrdersDataSource(this._firestore);
 
-  CollectionReference<Map<String, dynamic>> _ordersRef(String uId) =>
-      _firestore.collection('users').doc(uId).collection('orders');
+  CollectionReference<Map<String, dynamic>> get _ordersRef =>
+      _firestore.collection('orders');
 
-  String newOrderId() => _firestore.collection('users').doc().id;
+  String newOrderId() => _ordersRef.doc().id;
 
-  Future<void> createOrder(String uId, PlaceOrderParams params) {
-    return _ordersRef(
-      uId,
-    ).doc(params.orderId).set(OrderModel.toCreateMap(params, uId));
+  Future<void> createOrder(String? uId, PlaceOrderParams params) {
+    return _ordersRef
+        .doc(params.orderId)
+        .set(OrderModel.toCreateMap(params, uId));
   }
 
   Future<List<OrderModel>> getOrders(
@@ -24,9 +24,10 @@ class OrdersDataSource {
     required int limit,
     DateTime? startAfter,
   }) async {
-    Query<Map<String, dynamic>> query = _ordersRef(
-      uId,
-    ).orderBy(OrderFields.createdAt, descending: true).limit(limit);
+    Query<Map<String, dynamic>> query = _ordersRef
+        .where(OrderFields.userId, isEqualTo: uId)
+        .orderBy(OrderFields.createdAt, descending: true)
+        .limit(limit);
 
     if (startAfter != null) {
       query = query.startAfter([Timestamp.fromDate(startAfter)]);

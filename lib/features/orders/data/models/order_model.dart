@@ -4,10 +4,13 @@ import 'package:rooh/features/orders/domain/entity/order_item_entity.dart';
 import 'package:rooh/features/orders/domain/entity/order_status.dart';
 import 'package:rooh/features/orders/domain/entity/place_order_params.dart';
 import 'package:rooh/features/orders/domain/entity/shipping_info_entity.dart';
+
 import 'order_item_model.dart';
 import 'shipping_info_model.dart';
 
+/// أسماء الحقول اللي بتتكرر بين الـ model والـ data source.
 abstract final class OrderFields {
+  static const String userId = 'userId';
   static const String createdAt = 'createdAt';
 }
 
@@ -29,7 +32,7 @@ class OrderModel extends OrderEntity {
 
     return OrderModel(
       id: id,
-      userId: map['userId'] as String,
+      userId: map[OrderFields.userId] as String?,
       items: (map['items'] as List)
           .map(
             (e) => OrderItemModel.fromMap(Map<String, dynamic>.from(e as Map)),
@@ -50,10 +53,10 @@ class OrderModel extends OrderEntity {
 
   static Map<String, dynamic> toCreateMap(
     PlaceOrderParams params,
-    String userId,
+    String? userId,
   ) {
     return {
-      'userId': userId,
+      OrderFields.userId: userId,
       'status': OrderStatus.pending.name,
       OrderFields.createdAt: FieldValue.serverTimestamp(),
       'items': params.items.map(_itemToMap).toList(),

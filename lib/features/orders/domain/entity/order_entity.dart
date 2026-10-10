@@ -5,7 +5,7 @@ import 'shipping_info_entity.dart';
 
 class OrderEntity extends Equatable {
   final String id;
-  final String userId;
+  final String? userId;
   final List<OrderItemEntity> items;
   final double subtotal;
   final double deliveryFee;

@@ -20,8 +20,6 @@ class OrdersRepoImpl extends OrdersRepo {
   Future<Either<Failure, void>> createOrder(PlaceOrderParams params) async {
     final uId = _firebaseAuthDataSource.currentUid;
 
-    if (uId == null) return const Left(Failure(message: _notLoggedInMessage));
-
     try {
       await _ordersDataSource.createOrder(uId, params).timeout(_writeTimeout);
       return const Right(null);
@@ -66,7 +64,5 @@ class OrdersRepoImpl extends OrdersRepo {
   }
 
   @override
-  String newOrderId() {
-    return _ordersDataSource.newOrderId();
-  }
+  String newOrderId() => _ordersDataSource.newOrderId();
 }
