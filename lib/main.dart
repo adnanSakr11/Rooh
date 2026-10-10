@@ -9,6 +9,8 @@ import 'package:rooh/features/cart/domain/usecases/remove_item_from_cart.dart';
 import 'package:rooh/features/cart/domain/usecases/update_cart_quantity_usecase.dart';
 import 'package:rooh/features/cart/domain/usecases/watch_cart_usecase.dart';
 import 'package:rooh/features/cart/presentation/cubits/cart/cart_cubit.dart';
+import 'package:rooh/features/orders/domain/usecases/get_orders_usecase.dart';
+import 'package:rooh/features/orders/presentation/cubits/get_orders_history_cubit/get_orders_history_cubit.dart';
 import 'package:rooh/features/products/domain/usecases/get_products_usecase.dart';
 import 'package:rooh/shared/screens/splash_screen.dart';
 import 'package:rooh/shared/screens/intro_screen.dart';
@@ -26,6 +28,7 @@ Future<void> main() async {
   setupAuthDependencies();
   setupProductsDependencies();
   setupCartDependencies();
+  setupOrdersDependencies();
 
   runApp(const Rooh());
 }
@@ -40,16 +43,29 @@ class Rooh extends StatelessWidget {
 
       child: Builder(
         builder: (context) {
-          return BlocProvider(
-            create: (context) => CartCubit(
-              getIt<WatchCartUsecase>(),
-              getIt<AddItemToCartUsecase>(),
-              getIt<RemoveItemFromCartUsecase>(),
-              getIt<UpdateCartQuantityUsecase>(),
-              getIt<ClearCartUsecase>(),
-              getIt<GetProductsUsecase>(),
-              context.read<AuthCubit>(),
-            ),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => CartCubit(
+                  getIt<WatchCartUsecase>(),
+                  getIt<AddItemToCartUsecase>(),
+                  getIt<RemoveItemFromCartUsecase>(),
+                  getIt<UpdateCartQuantityUsecase>(),
+                  getIt<ClearCartUsecase>(),
+                  getIt<GetProductsUsecase>(),
+                  context.read<AuthCubit>(),
+                ),
+              ),
+
+              BlocProvider(
+                lazy: false,
+                create: (context) => OrdersHistoryCubit(
+                  getIt<GetOrdersUsecase>(),
+                  context.read<AuthCubit>(),
+                ),
+              ),
+            ],
+
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: appTheme,
